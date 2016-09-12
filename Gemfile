@@ -15,6 +15,10 @@ gem 'bootstrap-sass'
 
 group :development, :test do
   gem 'byebug', platform: :mri
+  gem 'factory_girl_rails'
+  gem 'rspec-rails'
+  gem 'guard-rspec', require: false
+  gem 'shoulda-matchers', '~> 3.0'
 end
 
 group :development do
