@@ -14,7 +14,7 @@ default: &default
   encoding: utf8
   pool: 5
   username: root
-  password:
+  password: root
   socket: /var/run/mysqld/mysqld.sock
 
 development:
@@ -47,8 +47,8 @@ test:
 #   production:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
-production:
-  <<: *default
-  database: divulgacao_cientifica_production
-  username: divulgacao_cientifica
-  password: <%= ENV['DIVULGACAO_CIENTIFICA_DATABASE_PASSWORD'] %>
+# production:
+#   <<: *default
+#   database: divulgacao_cientifica_production
+#   username: divulgacao_cientifica
+#   password: <%= ENV['DIVULGACAO_CIENTIFICA_DATABASE_PASSWORD'] %>
