@@ -12,5 +12,7 @@ class Educator < ApplicationRecord
 
   validates_uniqueness_of :registration, scope: :university_id
 
+  # delegations
+
   delegate :name, to: :university, prefix: true, allow_nil: true
 end
