@@ -5,5 +5,7 @@ FactoryGirl.define do
     trait :invalid do
       name nil
     end
+
+    factory :invalid_university, traits: [:invalid]
   end
 end
