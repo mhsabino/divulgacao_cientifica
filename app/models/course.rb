@@ -3,6 +3,7 @@ class Course < ApplicationRecord
   #associations
 
   belongs_to :university
+  has_many :educators
 
   #validations
 

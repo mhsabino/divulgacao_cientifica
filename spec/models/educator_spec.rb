@@ -9,6 +9,7 @@ RSpec.describe Educator, type: :model do
 
   describe '#associations' do
     it { is_expected.to belong_to :university }
+    it { is_expected.to belong_to :course }
   end
 
   describe '#validations' do
@@ -24,6 +25,9 @@ RSpec.describe Educator, type: :model do
   describe '#delegations' do
     it do
       is_expected.to delegate_method(:name).to(:university).with_prefix(true)
+    end
+    it do
+      is_expected.to delegate_method(:name).to(:course).with_prefix(true)
     end
   end
 end

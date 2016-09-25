@@ -3,6 +3,7 @@ FactoryGirl.define do
     sequence(:name) { |n| "Name_#{n}" }
     sequence(:registration) { |n| "registration_#{n}" }
     university
+    course
 
     trait :invalid do
       name nil

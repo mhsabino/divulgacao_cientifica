@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160924030715) do
+ActiveRecord::Schema.define(version: 20160924214439) do
 
   create_table "courses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "university_id"
@@ -26,6 +26,8 @@ ActiveRecord::Schema.define(version: 20160924030715) do
     t.string   "registration"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.integer  "course_id"
+    t.index ["course_id"], name: "index_educators_on_course_id", using: :btree
     t.index ["university_id"], name: "index_educators_on_university_id", using: :btree
   end
 
@@ -36,5 +38,6 @@ ActiveRecord::Schema.define(version: 20160924030715) do
   end
 
   add_foreign_key "courses", "universities"
+  add_foreign_key "educators", "courses"
   add_foreign_key "educators", "universities"
 end
