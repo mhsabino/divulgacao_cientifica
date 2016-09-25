@@ -7,7 +7,7 @@ FactoryGirl.define do
 
     trait :invalid do
       name nil
-      registration_ nil
+      registration nil
       university nil
     end
 
