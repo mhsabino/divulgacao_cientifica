@@ -10,6 +10,7 @@ RSpec.describe Course, type: :model do
   describe '#associations' do
     it { is_expected.to belong_to :university }
     it { is_expected.to have_many :educators }
+    it { is_expected.to have_many :school_classes }
   end
 
   describe '#validations' do

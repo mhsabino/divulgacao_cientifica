@@ -4,6 +4,7 @@ class Course < ApplicationRecord
 
   belongs_to :university
   has_many :educators
+  has_many :school_classes
 
   #validations
 
