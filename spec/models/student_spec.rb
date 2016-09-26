@@ -32,5 +32,8 @@ RSpec.describe Student, type: :model do
     it do
       is_expected.to delegate_method(:name).to(:course).with_prefix(true)
     end
+    it do
+      is_expected.to delegate_method(:name).to(:school_class).with_prefix(true)
+    end
   end
 end
