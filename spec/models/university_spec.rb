@@ -10,6 +10,7 @@ RSpec.describe University, type: :model do
   describe '#associations' do
     it { is_expected.to have_many(:educators).dependent(:destroy) }
     it { is_expected.to have_many(:courses).dependent(:destroy) }
+    it { is_expected.to have_many(:disciplines).dependent(:destroy) }
   end
 
   describe '#validations' do

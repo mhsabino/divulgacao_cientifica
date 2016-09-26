@@ -4,6 +4,7 @@ class University < ApplicationRecord
 
   has_many :educators, dependent: :destroy
   has_many :courses, dependent: :destroy
+  has_many :disciplines, dependent: :destroy
 
   #validations
 

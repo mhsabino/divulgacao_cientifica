@@ -10,6 +10,8 @@ RSpec.describe Educator, type: :model do
   describe '#associations' do
     it { is_expected.to belong_to :university }
     it { is_expected.to belong_to :course }
+    it { is_expected.to have_many :classrooms }
+    it { is_expected.to have_many(:disciplines).through(:classrooms) }
   end
 
   describe '#validations' do

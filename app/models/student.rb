@@ -8,7 +8,12 @@ class Student < ApplicationRecord
 
   # validations
 
-  validates_presence_of :name, :university, :school_class, :email, :registration
+  validates_presence_of :name,
+                        :university,
+                        :school_class,
+                        :email,
+                        :registration
+
   validates_uniqueness_of :registration, scope: :university_id
 
   # delegations

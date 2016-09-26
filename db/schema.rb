@@ -10,7 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160926000740) do
+ActiveRecord::Schema.define(version: 20160926003745) do
+
+  create_table "classrooms", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "discipline_id"
+    t.integer  "educator_id"
+    t.integer  "period"
+    t.integer  "vacancies"
+    t.string   "year"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["discipline_id"], name: "index_classrooms_on_discipline_id", using: :btree
+    t.index ["educator_id"], name: "index_classrooms_on_educator_id", using: :btree
+  end
 
   create_table "courses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "university_id"
@@ -71,6 +83,8 @@ ActiveRecord::Schema.define(version: 20160926000740) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "classrooms", "disciplines"
+  add_foreign_key "classrooms", "educators"
   add_foreign_key "courses", "universities"
   add_foreign_key "disciplines", "courses"
   add_foreign_key "disciplines", "universities"

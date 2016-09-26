@@ -10,7 +10,12 @@ class SchoolClass < ApplicationRecord
 
   # validations
 
-  validates_presence_of :name, :course, :year, :vacancies, :period
+  validates_presence_of :name,
+                        :course,
+                        :year,
+                        :vacancies,
+                        :period
+
   validates :vacancies, numericality: { greater_than: 0 }
 
   # delegations

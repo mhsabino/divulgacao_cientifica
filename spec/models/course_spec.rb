@@ -11,6 +11,7 @@ RSpec.describe Course, type: :model do
     it { is_expected.to belong_to :university }
     it { is_expected.to have_many :educators }
     it { is_expected.to have_many :school_classes }
+    it { is_expected.to have_many :disciplines }
   end
 
   describe '#validations' do

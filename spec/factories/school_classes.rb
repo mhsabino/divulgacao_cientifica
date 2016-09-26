@@ -1,8 +1,8 @@
 FactoryGirl.define do
   factory :school_class do
     sequence(:name) { |n| "School_class_name_#{n}" }
-    year DateTime.now.year
-    period 1
+    year { DateTime.now.year }
+    period :integral
     vacancies 30
     course
 
