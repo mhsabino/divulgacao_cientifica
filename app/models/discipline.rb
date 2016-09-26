@@ -1,4 +1,4 @@
-class Educator < ApplicationRecord
+class Discipline < ApplicationRecord
 
   # associations
 
@@ -7,11 +7,8 @@ class Educator < ApplicationRecord
 
   # validations
 
-  validates_presence_of :name,
-                        :registration,
-                        :university
-
-  validates_uniqueness_of :registration, scope: :university_id
+  validates_presence_of :name, :university, :course
+  validates_uniqueness_of :name, scope: :course_id
 
   # delegations
 

@@ -1,14 +1,15 @@
 class Course < ApplicationRecord
 
-  #associations
+  # associations
 
   belongs_to :university
   has_many :educators
   has_many :school_classes
 
-  #validations
+  # validations
 
   validates_presence_of :name, :university
+  validates_uniqueness_of :name, scope: :university_id
 
   # delegations
 
