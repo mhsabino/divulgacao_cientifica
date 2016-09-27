@@ -10,6 +10,7 @@ RSpec.describe Student, type: :model do
   describe '#associations' do
     it { is_expected.to belong_to :university }
     it { is_expected.to belong_to :school_class }
+    it { is_expected.to belong_to :user }
     it { is_expected.to have_one(:course).through(:school_class) }
   end
 
@@ -19,6 +20,7 @@ RSpec.describe Student, type: :model do
     it { is_expected.to validate_presence_of :email }
     it { is_expected.to validate_presence_of :university }
     it { is_expected.to validate_presence_of :school_class }
+    it { is_expected.to validate_presence_of :user }
     it do
       is_expected.to validate_uniqueness_of(:registration)
         .scoped_to(:university_id)
@@ -34,6 +36,9 @@ RSpec.describe Student, type: :model do
     end
     it do
       is_expected.to delegate_method(:name).to(:school_class).with_prefix(true)
+    end
+    it do
+      is_expected.to delegate_method(:email).to(:user)
     end
   end
 end

@@ -14,6 +14,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'bootstrap-sass'
 gem 'decent_exposure', '3.0.0'
 gem 'haml'
+gem 'devise'
 
 group :development, :test do
   gem 'byebug', platform: :mri
@@ -30,6 +31,7 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem "erb2haml"
   gem 'rubocop', '~> 0.42.0', require: false
+  gem "haml-rails", "~> 0.9"
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

@@ -10,6 +10,7 @@ RSpec.describe Educator, type: :model do
   describe '#associations' do
     it { is_expected.to belong_to :university }
     it { is_expected.to belong_to :course }
+    it { is_expected.to belong_to :user }
     it { is_expected.to have_many :classrooms }
     it { is_expected.to have_many(:disciplines).through(:classrooms) }
     it { is_expected.to have_many :scientific_researches }
@@ -19,6 +20,7 @@ RSpec.describe Educator, type: :model do
     it { is_expected.to validate_presence_of :name }
     it { is_expected.to validate_presence_of :registration }
     it { is_expected.to validate_presence_of :university }
+    it { is_expected.to validate_presence_of :user }
     it do
       is_expected.to validate_uniqueness_of(:registration)
         .scoped_to(:university_id)
@@ -31,6 +33,9 @@ RSpec.describe Educator, type: :model do
     end
     it do
       is_expected.to delegate_method(:name).to(:course).with_prefix(true)
+    end
+    it do
+      is_expected.to delegate_method(:email).to(:user)
     end
   end
 end

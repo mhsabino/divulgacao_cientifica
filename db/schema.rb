@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160927004534) do
+ActiveRecord::Schema.define(version: 20160927023335) do
 
   create_table "classrooms", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "discipline_id"
@@ -50,8 +50,10 @@ ActiveRecord::Schema.define(version: 20160927004534) do
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
     t.integer  "course_id"
+    t.integer  "user_id"
     t.index ["course_id"], name: "index_educators_on_course_id", using: :btree
     t.index ["university_id"], name: "index_educators_on_university_id", using: :btree
+    t.index ["user_id"], name: "index_educators_on_user_id", using: :btree
   end
 
   create_table "school_classes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -84,14 +86,33 @@ ActiveRecord::Schema.define(version: 20160927004534) do
     t.integer  "university_id"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.integer  "user_id"
     t.index ["school_class_id"], name: "index_students_on_school_class_id", using: :btree
     t.index ["university_id"], name: "index_students_on_university_id", using: :btree
+    t.index ["user_id"], name: "index_students_on_user_id", using: :btree
   end
 
   create_table "universities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "email",                  default: "", null: false
+    t.string   "encrypted_password",     default: "", null: false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          default: 0,  null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
   add_foreign_key "classrooms", "disciplines"
@@ -101,9 +122,11 @@ ActiveRecord::Schema.define(version: 20160927004534) do
   add_foreign_key "disciplines", "universities"
   add_foreign_key "educators", "courses"
   add_foreign_key "educators", "universities"
+  add_foreign_key "educators", "users"
   add_foreign_key "school_classes", "courses"
   add_foreign_key "scientific_researches", "educators"
   add_foreign_key "scientific_researches", "universities"
   add_foreign_key "students", "school_classes"
   add_foreign_key "students", "universities"
+  add_foreign_key "students", "users"
 end

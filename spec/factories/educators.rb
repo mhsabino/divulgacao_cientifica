@@ -4,11 +4,13 @@ FactoryGirl.define do
     sequence(:registration) { |n| "registration_#{n}" }
     university
     course
+    user
 
     trait :invalid do
       name nil
       registration nil
       university nil
+      user nil
     end
 
     factory :invalid_educator, traits: [:invalid]

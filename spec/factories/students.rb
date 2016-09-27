@@ -5,6 +5,7 @@ FactoryGirl.define do
     sequence(:email) { |n| "student_email_#{n}@email.com" }
     university
     school_class
+    user
 
     trait :invalid do
       name nil
@@ -12,6 +13,7 @@ FactoryGirl.define do
       email nil
       school_class nil
       university nil
+      user nil
     end
 
     factory :invalid_student, traits: [:invalid]
