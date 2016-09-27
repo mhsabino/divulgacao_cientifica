@@ -6,6 +6,7 @@ class Educator < ApplicationRecord
   belongs_to :course
   has_many   :classrooms
   has_many   :disciplines, through: :classrooms
+  has_many   :scientific_researches
 
   # validations
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160926003745) do
+ActiveRecord::Schema.define(version: 20160927004534) do
 
   create_table "classrooms", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "discipline_id"
@@ -65,6 +65,17 @@ ActiveRecord::Schema.define(version: 20160926003745) do
     t.index ["course_id"], name: "index_school_classes_on_course_id", using: :btree
   end
 
+  create_table "scientific_researches", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "educator_id"
+    t.integer  "university_id"
+    t.string   "name"
+    t.text     "description",   limit: 65535
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.index ["educator_id"], name: "index_scientific_researches_on_educator_id", using: :btree
+    t.index ["university_id"], name: "index_scientific_researches_on_university_id", using: :btree
+  end
+
   create_table "students", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "school_class_id"
     t.string   "name"
@@ -91,6 +102,8 @@ ActiveRecord::Schema.define(version: 20160926003745) do
   add_foreign_key "educators", "courses"
   add_foreign_key "educators", "universities"
   add_foreign_key "school_classes", "courses"
+  add_foreign_key "scientific_researches", "educators"
+  add_foreign_key "scientific_researches", "universities"
   add_foreign_key "students", "school_classes"
   add_foreign_key "students", "universities"
 end
