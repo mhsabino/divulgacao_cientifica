@@ -20,8 +20,8 @@ class Student < ApplicationRecord
 
   # delegations
 
-  delegate :name, to: :university, prefix: true, allow_nil: true
-  delegate :name, to: :course, prefix: true, allow_nil: true
-  delegate :name, to: :school_class, prefix: true, allow_nil: true
-  delegate :email, to: :user, allow_nil: true
+  delegate :name,  to: :university,   prefix: true, allow_nil: true
+  delegate :name,  to: :course,       prefix: true, allow_nil: true
+  delegate :name,  to: :school_class, prefix: true, allow_nil: true
+  delegate :email, to: :user,         allow_nil: true
 end

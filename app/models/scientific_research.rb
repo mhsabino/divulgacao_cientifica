@@ -14,6 +14,6 @@ class ScientificResearch < ApplicationRecord
   # delegations
 
   delegate :name, to: :university, prefix: true, allow_nil: true
-  delegate :name, to: :educator, prefix: true, allow_nil: true
+  delegate :name, to: :educator,   prefix: true, allow_nil: true
 
 end

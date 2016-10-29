@@ -22,6 +22,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'guard-rspec', require: false
   gem 'shoulda-matchers', '~> 3.0'
+  gem 'rails-controller-testing'
 end
 
 group :development do
