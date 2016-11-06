@@ -52,5 +52,10 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
+  # set pt-BR as default locale
+  config.i18n.default_locale = 'pt-BR'
+
+  config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
+
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 end

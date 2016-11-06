@@ -1,0 +1,20 @@
+pt-BR:
+  activerecord:
+    models:
+      educator:
+        one: Educador
+        other: Educadores
+
+    attributes:
+      educator:
+        name: Nome
+        registration: Matrícula
+
+    errors:
+      models:
+        educator:
+          attributes:
+            name:
+              blank: '%{attribute} precisa ser informado'
+            registration:
+              blank: '%{attribute} precisa ser informado'

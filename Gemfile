@@ -15,6 +15,7 @@ gem 'bootstrap-sass'
 gem 'decent_exposure', '3.0.0'
 gem 'haml'
 gem 'devise'
+gem 'font-awesome-rails', '~> 4.7'
 
 group :development, :test do
   gem 'byebug', platform: :mri

@@ -1,4 +1,4 @@
-class Admin::EducatorsController < ApplicationController
+class Admin::EducatorsController < AdministratorController
 
   before_action :authenticate_user!
   before_action :redirect_unauthorized_user
@@ -7,10 +7,12 @@ class Admin::EducatorsController < ApplicationController
 
   PERMITTED_PARAMS = [ :name, :registration, :course_id ]
 
-  # exposes
+  # exposes and helper methods
 
   expose(:educator, attributes: :educator_params)
   expose(:educators) { find_educators }
+
+  helper_method [:fields]
 
   # actions
 
@@ -56,6 +58,10 @@ class Admin::EducatorsController < ApplicationController
 
   def educator_params
     params.require(:educator).permit(*PERMITTED_PARAMS)
+  end
+
+  def fields
+    %w(registration name)
   end
 
 end

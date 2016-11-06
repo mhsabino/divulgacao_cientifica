@@ -1,0 +1,8 @@
+pt-BR:
+  actions: Ações
+  destroy_confirmation: Deseja remover o registro?
+  register_not_found: 'Nenhum %{resource} encontrado'
+  title: DivulgacaoCientifica
+  tooltip_remove_action: Remover registro
+  tooltip_edit_action: Editar registro
+

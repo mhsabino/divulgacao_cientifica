@@ -1,0 +1,6 @@
+- colspan ||= 1
+
+- unless collection.present?
+  %tr
+    %td.bg-info{ colspan: colspan }
+      = t('register_not_found', resource: downcase_model_name(model))

@@ -26,6 +26,16 @@ RSpec.describe Admin::EducatorsController, type: :controller do
       it { expect(controller.educators).to match_array(educators) }
     end
 
+    describe '#helper_methods' do
+      describe 'fields' do
+        let(:expected_result) { ['registration', 'name'] }
+
+        it 'fields' do
+          expect(controller.send(:fields)).to eq(expected_result)
+        end
+      end
+    end
+
     describe '#permissions' do
       let(:role)       { :secretary }
       let(:other_user) { create(:user, role: role) }

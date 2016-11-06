@@ -9,6 +9,9 @@ class User < ApplicationRecord
 
   # validations
 
+  validates_presence_of :email,
+                        :password,
+                        :role
+
   validates_uniqueness_of :email
-  validates_presence_of :email, :password, :role
 end
