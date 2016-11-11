@@ -2,10 +2,19 @@ class Admin::EducatorsController < AdministratorController
 
   before_action :authenticate_user!
   before_action :redirect_unauthorized_user
+  before_action :educator_university, only: :create
+  before_action :educator_course, only: :create
+  before_action :build_educator_user, only: :create
+  before_action :educator_role, only: :create
 
   # constants
 
-  PERMITTED_PARAMS = [ :name, :registration, :course_id ]
+  PERMITTED_PARAMS = [
+    :name,
+    :registration,
+    :course_id,
+    user_attributes: [:id, :email, :password, :password_confirmation]
+  ]
 
   # exposes and helper methods
 
@@ -20,6 +29,7 @@ class Admin::EducatorsController < AdministratorController
   end
 
   def new
+    educator.build_user
   end
 
   def create
@@ -28,6 +38,8 @@ class Admin::EducatorsController < AdministratorController
     else
       render :new
     end
+
+    p educator.errors
   end
 
   def show
@@ -62,6 +74,25 @@ class Admin::EducatorsController < AdministratorController
 
   def fields
     %w(registration name)
+  end
+
+  # setter methods
+
+  # TODO: Remove this after set the course
+  def educator_course
+    educator.course = Course.first
+  end
+
+  def build_educator_user
+    educator.build_user
+  end
+
+  def educator_university
+    educator.university = current_university
+  end
+
+  def educator_role
+    educator.user.role = :educator
   end
 
 end

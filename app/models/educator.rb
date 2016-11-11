@@ -14,7 +14,8 @@ class Educator < ApplicationRecord
   validates_presence_of :name,
                         :registration,
                         :university,
-                        :user
+                        :user,
+                        :course
 
   validates_uniqueness_of :registration, scope: :university_id
 
@@ -23,4 +24,8 @@ class Educator < ApplicationRecord
   delegate :name,  to: :university, prefix: true, allow_nil: true
   delegate :name,  to: :course,     prefix: true, allow_nil: true
   delegate :email, to: :user,       allow_nil: true
+
+  # nested attributes
+
+  accepts_nested_attributes_for :user
 end

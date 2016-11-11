@@ -1,10 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe Admin::EducatorsController, type: :controller do
-  let(:user)             { create(:user) }
-  let(:university)       { create(:university) }
-  let(:educator)         { educators.first }
-  let(:permitted_params) { [ :name, :registration, :course_id ] }
+  let(:user)       { create(:user) }
+  let(:university) { create(:university) }
+  let(:educator)   { educators.first }
+  let(:permitted_params) do
+    [
+      :name,
+      :registration,
+      :course_id,
+      user_attributes: [:id, :email, :password, :password_confirmation]
+    ]
+  end
   let(:educators) do
     create_list(:educator, 2, user: create(:user, :educator),
       university: university)
@@ -112,12 +119,12 @@ RSpec.describe Admin::EducatorsController, type: :controller do
   end
 
   describe '#create' do
-    let(:valid_educator)     { educator }
+    let(:valid_educator)     { build(:educator) }
     let(:invalid_educator)   { build(:educator, :invalid ) }
     let(:valid_attributes)   { valid_educator.attributes  }
     let(:invalid_attributes) { invalid_educator.attributes }
-    let(:valid_params)       { { educator: valid_attributes } }
-    let(:invalid_params)     { { educator: invalid_attributes } }
+    let(:valid_params)       { { params: { educator: valid_attributes } } }
+    let(:invalid_params)     { { params: { educator: invalid_attributes } } }
 
     context 'permitted params' do
       it do
@@ -129,7 +136,7 @@ RSpec.describe Admin::EducatorsController, type: :controller do
     context 'with valid params' do
       before { post :create, valid_params }
 
-      xit { is_expected.to redirect_to :index }
+      it { is_expected.to redirect_to admin_educators_path }
     end
 
     context 'with invalid params' do
@@ -162,7 +169,7 @@ RSpec.describe Admin::EducatorsController, type: :controller do
 
   describe '#edit' do
     describe '#template' do
-      before { get :edit, id: educator }
+      before { get :edit, params: { id: educator } }
       render_views
 
       it { is_expected.to respond_with :success }
@@ -170,7 +177,7 @@ RSpec.describe Admin::EducatorsController, type: :controller do
     end
 
     describe '#exposes' do
-      before { get :edit, id: educator }
+      before { get :edit, params: { id: educator } }
       it { expect(controller.educator).to eq(educator) }
     end
 
@@ -181,7 +188,7 @@ RSpec.describe Admin::EducatorsController, type: :controller do
       before do
         sign_out user
         sign_in other_user
-        get :edit, id: educator
+        get :edit, params: { id: educator }
       end
 
       context 'when a student user tries to access' do
@@ -210,8 +217,12 @@ RSpec.describe Admin::EducatorsController, type: :controller do
     let(:invalid_educator)   { build(:educator, :invalid, user: user) }
     let(:valid_attributes)   { valid_educator.attributes  }
     let(:invalid_attributes) { invalid_educator.attributes }
-    let(:valid_params)       { { id: educator, educator: valid_attributes } }
-    let(:invalid_params)     { { id: educator, educator: invalid_attributes } }
+    let(:valid_params) do
+      { params: { id: educator, educator: valid_attributes } }
+    end
+    let(:invalid_params) do
+      { params: { id: educator, educator: invalid_attributes } }
+    end
 
     context 'permitted params' do
       xit do

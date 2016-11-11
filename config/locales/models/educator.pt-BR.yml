@@ -17,4 +17,4 @@ pt-BR:
             name:
               blank: '%{attribute} precisa ser informado'
             registration:
-              blank: '%{attribute} precisa ser informado'
+              blank: '%{attribute} precisa ser informada'

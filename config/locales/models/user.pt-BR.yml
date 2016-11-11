@@ -1,0 +1,26 @@
+pt-BR:
+  activerecord:
+    models:
+      user:
+        one: Usuário
+        other: Usuários
+
+    attributes:
+      user:
+        email: E-mail
+        email_confirmation: Confirmação de e-mail
+        password: Senha
+        password_confirmation: Confirmação de senha
+
+    errors:
+      models:
+        user:
+          attributes:
+            email:
+              blank: '%{attribute} precisa ser informado'
+            email_confirmation:
+              blank: '%{attribute} precisa ser informado'
+            password:
+              blank: '%{attribute} precisa ser informada'
+            password_confirmation:
+              blank: '%{attribute} precisa ser informada'

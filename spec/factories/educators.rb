@@ -11,6 +11,7 @@ FactoryGirl.define do
       registration nil
       university nil
       user nil
+      course nil
     end
 
     factory :invalid_educator, traits: [:invalid]

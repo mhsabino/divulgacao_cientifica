@@ -16,6 +16,7 @@ gem 'decent_exposure', '3.0.0'
 gem 'haml'
 gem 'devise'
 gem 'font-awesome-rails', '~> 4.7'
+gem 'simple_form'
 
 group :development, :test do
   gem 'byebug', platform: :mri

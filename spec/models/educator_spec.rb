@@ -21,6 +21,7 @@ RSpec.describe Educator, type: :model do
     it { is_expected.to validate_presence_of :registration }
     it { is_expected.to validate_presence_of :university }
     it { is_expected.to validate_presence_of :user }
+    it { is_expected.to validate_presence_of :course }
     it do
       is_expected.to validate_uniqueness_of(:registration)
         .scoped_to(:university_id)
@@ -37,5 +38,9 @@ RSpec.describe Educator, type: :model do
     it do
       is_expected.to delegate_method(:email).to(:user)
     end
+  end
+
+  describe '#nested attributes' do
+    it { is_expected.to accept_nested_attributes_for(:user) }
   end
 end
