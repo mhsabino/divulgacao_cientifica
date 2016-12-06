@@ -4,7 +4,7 @@ class Admin::EducatorsController < AdministratorController
   before_action :redirect_unauthorized_user
   before_action :educator_university, only: :create
   before_action :educator_course, only: :create
-  before_action :build_educator_user, only: :create
+  before_action :build_educator_user, only: :new
   before_action :educator_role, only: :create
 
   # constants
@@ -29,7 +29,6 @@ class Admin::EducatorsController < AdministratorController
   end
 
   def new
-    educator.build_user
   end
 
   def create
@@ -38,8 +37,6 @@ class Admin::EducatorsController < AdministratorController
     else
       render :new
     end
-
-    p educator.errors
   end
 
   def show
@@ -49,11 +46,16 @@ class Admin::EducatorsController < AdministratorController
   end
 
   def update
-    if educator.save
+    if educator.update(educator_params)
       redirect_to action: :show
     else
       render :edit
     end
+  end
+
+  def destroy
+    educator.destroy
+    redirect_to action: :index
   end
 
   # methods
@@ -94,5 +96,4 @@ class Admin::EducatorsController < AdministratorController
   def educator_role
     educator.user.role = :educator
   end
-
 end

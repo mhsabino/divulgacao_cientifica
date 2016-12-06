@@ -121,8 +121,15 @@ RSpec.describe Admin::EducatorsController, type: :controller do
   describe '#create' do
     let(:valid_educator)     { build(:educator) }
     let(:invalid_educator)   { build(:educator, :invalid ) }
-    let(:valid_attributes)   { valid_educator.attributes  }
-    let(:invalid_attributes) { invalid_educator.attributes }
+    let(:valid_attributes) do
+      valid_educator.attributes
+        .merge!({ user_attributes: build(:user).attributes
+          .merge!({ password: 'letmein' }) })
+    end
+    let(:invalid_attributes) do
+      invalid_educator.attributes
+        .merge!({ user_attributes: build(:user).attributes })
+    end
     let(:valid_params)       { { params: { educator: valid_attributes } } }
     let(:invalid_params)     { { params: { educator: invalid_attributes } } }
 
@@ -136,7 +143,7 @@ RSpec.describe Admin::EducatorsController, type: :controller do
     context 'with valid params' do
       before { post :create, valid_params }
 
-      it { is_expected.to redirect_to admin_educators_path }
+      it { is_expected.to redirect_to action: :index }
     end
 
     context 'with invalid params' do
@@ -163,6 +170,51 @@ RSpec.describe Admin::EducatorsController, type: :controller do
       context 'when a educator user tries to access' do
         let(:role) { :educator }
         it { is_expected.to redirect_to admin_root_path }
+      end
+    end
+  end
+
+  describe '#show' do
+    describe '#template' do
+      before { get :show, params: { id: educator } }
+      render_views
+
+      it { is_expected.to respond_with :success }
+      it { is_expected.to render_template :show }
+    end
+
+    describe '#exposes' do
+      before { get :show, params: { id: educator } }
+      it { expect(controller.educator).to eq(educator) }
+    end
+
+    describe '#permissions' do
+      let(:role)       { :secretary }
+      let(:other_user) { create(:user, role: role) }
+
+      before do
+        sign_out user
+        sign_in other_user
+        get :show, params: { id: educator }
+      end
+
+      context 'when a student user tries to access' do
+        let(:role) { :student }
+        it { is_expected.to redirect_to admin_root_path }
+      end
+
+      context 'when a educator user tries to access' do
+        let(:role) { :educator }
+        it { is_expected.to redirect_to admin_root_path }
+      end
+
+      context 'when a secretary user tries to access' do
+        it { is_expected.to render_template :show }
+      end
+
+      context 'when a admin user tries to access' do
+        let(:role) { :admin }
+        it { is_expected.to render_template :show }
       end
     end
   end
@@ -215,7 +267,7 @@ RSpec.describe Admin::EducatorsController, type: :controller do
   describe '#update' do
     let(:valid_educator)     { create(:educator, user: user) }
     let(:invalid_educator)   { build(:educator, :invalid, user: user) }
-    let(:valid_attributes)   { valid_educator.attributes  }
+    let(:valid_attributes)   { valid_educator.attributes }
     let(:invalid_attributes) { invalid_educator.attributes }
     let(:valid_params) do
       { params: { id: educator, educator: valid_attributes } }
@@ -225,9 +277,9 @@ RSpec.describe Admin::EducatorsController, type: :controller do
     end
 
     context 'permitted params' do
-      xit do
+      it do
         is_expected.to permit(*permitted_params)
-          .for(:update, params: valid_params).on(:educator)
+          .for(:update, valid_params).on(:educator)
       end
     end
 
@@ -240,7 +292,7 @@ RSpec.describe Admin::EducatorsController, type: :controller do
     context 'with invalid params' do
       before { patch :update, invalid_params }
 
-      xit { is_expected.to render_template :edit }
+      it { is_expected.to render_template :edit }
     end
 
     describe '#permissions' do
@@ -251,6 +303,55 @@ RSpec.describe Admin::EducatorsController, type: :controller do
         sign_out user
         sign_in other_user
         patch :update, valid_params
+      end
+
+      context 'when a student user tries to access' do
+        let(:role) { :student }
+        it { is_expected.to redirect_to admin_root_path }
+      end
+
+      context 'when a educator user tries to access' do
+        let(:role) { :educator }
+        it { is_expected.to redirect_to admin_root_path }
+      end
+    end
+  end
+
+  describe '#destroy' do
+    let!(:educator) { create(:educator) }
+
+    context 'always' do
+      before { delete :destroy, params: { id: educator } }
+
+      it { is_expected.to redirect_to action: :index }
+    end
+
+    context 'with valid params' do
+      it do
+        expect{ delete :destroy, params: { id: educator } }
+          .to change{ Educator.count }.by(-1)
+      end
+    end
+
+    context 'with invalid params' do
+      before do
+        allow_any_instance_of(Educator).to receive(:destroy).and_return(false)
+      end
+
+      it do
+        expect{ delete :destroy, params: { id: educator } }
+          .not_to change{ Educator.count }
+      end
+    end
+
+    describe '#permissions' do
+      let(:role)       { :secretary }
+      let(:other_user) { create(:user, role: role) }
+
+      before do
+        sign_out user
+        sign_in other_user
+        delete :destroy, params: { id: educator }
       end
 
       context 'when a student user tries to access' do

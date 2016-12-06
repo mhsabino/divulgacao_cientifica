@@ -5,6 +5,7 @@ class Educator < ApplicationRecord
   belongs_to :university
   belongs_to :course
   belongs_to :user
+
   has_many   :classrooms
   has_many   :disciplines, through: :classrooms
   has_many   :scientific_researches
@@ -27,5 +28,5 @@ class Educator < ApplicationRecord
 
   # nested attributes
 
-  accepts_nested_attributes_for :user
+  accepts_nested_attributes_for :user, allow_destroy: true, reject_if: :all_blank
 end

@@ -13,10 +13,7 @@ class User < ApplicationRecord
 
   # validations
 
-  validates_presence_of :email,
-                        :password,
-                        :password_confirmation,
-                        :role
-
+  validates_presence_of :email, :role
   validates_uniqueness_of :email
+  validates_confirmation_of :password
 end

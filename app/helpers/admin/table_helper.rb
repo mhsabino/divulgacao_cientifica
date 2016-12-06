@@ -8,10 +8,10 @@ module Admin::TableHelper
 
   def link_to_remove(path)
     tooltip_title   = t('tooltip_remove_action')
-    attributes      = { confirm: t('destroy_confirmation') }
+    attributes      = { confirm: t('destroy_confirmation'), method: 'delete' }
     data_attributes = link_data_attributes(tooltip_title, attributes)
 
-    link(path, data_attributes, 'fa fa-trash-o', { method: 'delete' })
+    link(path, data_attributes, 'fa fa-trash-o')
   end
 
   def link_to_edit(path)
@@ -36,8 +36,8 @@ module Admin::TableHelper
     data_attributes
   end
 
-  def link(path, data_attributes, content_tag_i_class, options={})
-    link_to path, data_attributes, options do
+  def link(path, data_attributes, content_tag_i_class)
+    link_to path, data_attributes do
       content_tag(:i, nil, class: content_tag_i_class).html_safe
     end
   end
