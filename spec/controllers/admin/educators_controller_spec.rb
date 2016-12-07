@@ -119,8 +119,8 @@ RSpec.describe Admin::EducatorsController, type: :controller do
   end
 
   describe '#create' do
-    let(:valid_educator)     { build(:educator) }
-    let(:invalid_educator)   { build(:educator, :invalid ) }
+    let(:valid_educator)   { build(:educator) }
+    let(:invalid_educator) { build(:educator, :invalid ) }
     let(:valid_attributes) do
       valid_educator.attributes
         .merge!({ user_attributes: build(:user).attributes
@@ -130,8 +130,8 @@ RSpec.describe Admin::EducatorsController, type: :controller do
       invalid_educator.attributes
         .merge!({ user_attributes: build(:user).attributes })
     end
-    let(:valid_params)       { { params: { educator: valid_attributes } } }
-    let(:invalid_params)     { { params: { educator: invalid_attributes } } }
+    let(:valid_params)   { { params: { educator: valid_attributes } } }
+    let(:invalid_params) { { params: { educator: invalid_attributes } } }
 
     context 'permitted params' do
       it do

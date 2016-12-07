@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Educator, type: :model do
+  subject { build(:educator) }
 
   describe '#factory' do
-    subject { build(:educator) }
     it { is_expected.to be_valid }
   end
 
