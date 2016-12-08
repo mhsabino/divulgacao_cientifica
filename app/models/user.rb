@@ -9,7 +9,7 @@ class User < ApplicationRecord
 
   # associations
 
-  has_one :educator
+  has_one :educator, dependent: :destroy
 
   # validations
 

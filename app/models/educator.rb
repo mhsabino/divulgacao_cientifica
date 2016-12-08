@@ -4,7 +4,7 @@ class Educator < ApplicationRecord
 
   belongs_to :university
   belongs_to :course
-  belongs_to :user
+  belongs_to :user, dependent: :destroy
 
   has_many   :classrooms
   has_many   :disciplines, through: :classrooms

@@ -41,6 +41,20 @@ RSpec.describe Admin::EducatorsController, type: :controller do
           expect(controller.send(:fields)).to eq(expected_result)
         end
       end
+
+      describe 'javascript' do
+        let(:expected_result) { "views/admin/educators/index" }
+        before { get :index }
+
+        it { expect(controller.send(:javascript)).to eq(expected_result) }
+      end
+
+      describe 'stylesheet' do
+        let(:expected_result) { "views/admin/educators/index" }
+        before { get :index }
+
+        it { expect(controller.send(:stylesheet)).to eq(expected_result) }
+      end
     end
 
     describe '#permissions' do
@@ -85,6 +99,22 @@ RSpec.describe Admin::EducatorsController, type: :controller do
     describe '#exposes' do
       before { get :new }
       it { expect(controller.educator).to be_a_new(Educator) }
+    end
+
+    describe '#helper_methods' do
+      describe 'javascript' do
+        let(:expected_result) { "views/admin/educators/new" }
+        before { get :new }
+
+        it { expect(controller.send(:javascript)).to eq(expected_result) }
+      end
+
+      describe 'stylesheet' do
+        let(:expected_result) { "views/admin/educators/new" }
+        before { get :new }
+
+        it { expect(controller.send(:stylesheet)).to eq(expected_result) }
+      end
     end
 
     describe '#permissions' do
@@ -141,15 +171,21 @@ RSpec.describe Admin::EducatorsController, type: :controller do
     end
 
     context 'with valid params' do
+      let(:expected_flash) { I18n.t('admin.educators.create.success') }
+
       before { post :create, valid_params }
 
       it { is_expected.to redirect_to action: :index }
+      it { expect(controller).to set_flash[:notice].to(expected_flash) }
     end
 
     context 'with invalid params' do
+      let(:expected_flash) { I18n.t('admin.educators.create.error') }
+
       before { post :create, invalid_params }
 
       it { is_expected.to render_template :new }
+      it { expect(controller).to set_flash[:alert].to(expected_flash) }
     end
 
     describe '#permissions' do
@@ -187,6 +223,23 @@ RSpec.describe Admin::EducatorsController, type: :controller do
       before { get :show, params: { id: educator } }
       it { expect(controller.educator).to eq(educator) }
     end
+
+    describe '#helper_methods' do
+      describe 'javascript' do
+        let(:expected_result) { "views/admin/educators/show" }
+        before { get :show, params: { id: educator } }
+
+        it { expect(controller.send(:javascript)).to eq(expected_result) }
+      end
+
+      describe 'stylesheet' do
+        let(:expected_result) { "views/admin/educators/show" }
+        before { get :show, params: { id: educator } }
+
+        it { expect(controller.send(:stylesheet)).to eq(expected_result) }
+      end
+    end
+
 
     describe '#permissions' do
       let(:role)       { :secretary }
@@ -232,6 +285,23 @@ RSpec.describe Admin::EducatorsController, type: :controller do
       before { get :edit, params: { id: educator } }
       it { expect(controller.educator).to eq(educator) }
     end
+
+    describe '#helper_methods' do
+      describe 'javascript' do
+        let(:expected_result) { "views/admin/educators/edit" }
+        before { get :edit, params: { id: educator } }
+
+        it { expect(controller.send(:javascript)).to eq(expected_result) }
+      end
+
+      describe 'stylesheet' do
+        let(:expected_result) { "views/admin/educators/edit" }
+        before { get :edit, params: { id: educator } }
+
+        it { expect(controller.send(:stylesheet)).to eq(expected_result) }
+      end
+    end
+
 
     describe '#permissions' do
       let(:role)       { :secretary }
@@ -284,15 +354,21 @@ RSpec.describe Admin::EducatorsController, type: :controller do
     end
 
     context 'with valid params' do
+      let(:expected_flash) { I18n.t('admin.educators.update.success') }
+
       before { patch :update, valid_params }
 
       it { is_expected.to redirect_to action: :show }
+      it { expect(controller).to set_flash[:notice].to(expected_flash) }
     end
 
     context 'with invalid params' do
+      let(:expected_flash) { I18n.t('admin.educators.update.error') }
+
       before { patch :update, invalid_params }
 
       it { is_expected.to render_template :edit }
+      it { expect(controller).to set_flash[:alert].to(expected_flash) }
     end
 
     describe '#permissions' do
@@ -331,6 +407,14 @@ RSpec.describe Admin::EducatorsController, type: :controller do
         expect{ delete :destroy, params: { id: educator } }
           .to change{ Educator.count }.by(-1)
       end
+
+      context 'shows flash' do
+        let(:expected_flash) { I18n.t('admin.educators.destroy.success') }
+
+        before { delete :destroy, params: { id: educator } }
+
+        it { expect(controller).to set_flash[:notice].to(expected_flash) }
+      end
     end
 
     context 'with invalid params' do
@@ -341,6 +425,14 @@ RSpec.describe Admin::EducatorsController, type: :controller do
       it do
         expect{ delete :destroy, params: { id: educator } }
           .not_to change{ Educator.count }
+      end
+
+      context 'shows flash' do
+        let(:expected_flash) { I18n.t('admin.educators.destroy.error') }
+
+        before { delete :destroy, params: { id: educator } }
+
+        it { expect(controller).to set_flash[:alert].to(expected_flash) }
       end
     end
 

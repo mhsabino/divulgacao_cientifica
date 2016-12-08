@@ -1,9 +1,9 @@
 %tr
   %td
-    = educator.registration
+    = link_to educator.registration, admin_educator_path(educator)
 
   %td
-    = educator.name
+    = link_to educator.name, admin_educator_path(educator)
 
   %td
     = link_to_remove admin_educator_path(educator)
