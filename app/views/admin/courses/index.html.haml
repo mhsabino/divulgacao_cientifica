@@ -1,0 +1,8 @@
+.col-xs-12
+  = flash_message
+
+.col-xs-12
+  = link_to t('.new'), new_admin_course_path
+
+.col-xs-12
+  = display_admin_responsive_table(Course, courses, fields)

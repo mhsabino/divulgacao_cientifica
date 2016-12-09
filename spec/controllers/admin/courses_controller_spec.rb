@@ -1,21 +1,11 @@
 require 'rails_helper'
 
-RSpec.describe Admin::EducatorsController, type: :controller do
-  let(:user)       { create(:user) }
-  let(:university) { create(:university) }
-  let(:educator)   { educators.first }
-  let(:permitted_params) do
-    [
-      :name,
-      :registration,
-      :course_id,
-      user_attributes: [:id, :email, :password, :password_confirmation]
-    ]
-  end
-  let(:educators) do
-    create_list(:educator, 2, user: create(:user, :educator),
-      university: university)
-  end
+RSpec.describe Admin::CoursesController, type: :controller do
+  let(:user)             { create(:user) }
+  let(:university)       { create(:university) }
+  let(:course)           { courses.first }
+  let(:permitted_params) { [ :name ] }
+  let(:courses)          { create_list(:course, 2, university: university) }
 
   before { sign_in user }
 
@@ -30,12 +20,12 @@ RSpec.describe Admin::EducatorsController, type: :controller do
 
     describe '#exposes' do
       before { get :index }
-      it { expect(controller.educators).to match_array(educators) }
+      it { expect(controller.courses).to match_array(courses) }
     end
 
     describe '#helper_methods' do
       describe 'fields' do
-        let(:expected_result) { ['registration', 'name'] }
+        let(:expected_result) { ['name'] }
 
         it 'fields' do
           expect(controller.send(:fields)).to eq(expected_result)
@@ -43,14 +33,14 @@ RSpec.describe Admin::EducatorsController, type: :controller do
       end
 
       describe 'javascript' do
-        let(:expected_result) { "views/admin/educators/index" }
+        let(:expected_result) { "views/admin/courses/index" }
         before { get :index }
 
         it { expect(controller.send(:javascript)).to eq(expected_result) }
       end
 
       describe 'stylesheet' do
-        let(:expected_result) { "views/admin/educators/index" }
+        let(:expected_result) { "views/admin/courses/index" }
         before { get :index }
 
         it { expect(controller.send(:stylesheet)).to eq(expected_result) }
@@ -98,19 +88,19 @@ RSpec.describe Admin::EducatorsController, type: :controller do
 
     describe '#exposes' do
       before { get :new }
-      it { expect(controller.educator).to be_a_new(Educator) }
+      it { expect(controller.course).to be_a_new(Course) }
     end
 
     describe '#helper_methods' do
       describe 'javascript' do
-        let(:expected_result) { "views/admin/educators/new" }
+        let(:expected_result) { "views/admin/courses/new" }
         before { get :new }
 
         it { expect(controller.send(:javascript)).to eq(expected_result) }
       end
 
       describe 'stylesheet' do
-        let(:expected_result) { "views/admin/educators/new" }
+        let(:expected_result) { "views/admin/courses/new" }
         before { get :new }
 
         it { expect(controller.send(:stylesheet)).to eq(expected_result) }
@@ -149,29 +139,22 @@ RSpec.describe Admin::EducatorsController, type: :controller do
   end
 
   describe '#create' do
-    let(:valid_educator)   { build(:educator, university: university) }
-    let(:invalid_educator) { build(:educator, :invalid ) }
-    let(:valid_attributes) do
-      valid_educator.attributes
-        .merge!({ user_attributes: build(:user).attributes
-          .merge!({ password: 'letmein' }) })
-    end
-    let(:invalid_attributes) do
-      invalid_educator.attributes
-        .merge!({ user_attributes: build(:user).attributes })
-    end
-    let(:valid_params)   { { params: { educator: valid_attributes } } }
-    let(:invalid_params) { { params: { educator: invalid_attributes } } }
+    let(:valid_course)       { build(:course, university: university) }
+    let(:invalid_course)     { build(:course, :invalid ) }
+    let(:valid_attributes)   { valid_course.attributes }
+    let(:invalid_attributes) { invalid_course.attributes }
+    let(:valid_params)       { { params: { course: valid_attributes } } }
+    let(:invalid_params)     { { params: { course: invalid_attributes } } }
 
     context 'permitted params' do
       it do
         is_expected.to permit(*permitted_params)
-          .for(:create, params: valid_params).on(:educator)
+          .for(:create, params: valid_params).on(:course)
       end
     end
 
     context 'with valid params' do
-      let(:expected_flash) { I18n.t('admin.educators.create.success') }
+      let(:expected_flash) { I18n.t('admin.courses.create.success') }
 
       before { post :create, valid_params }
 
@@ -180,7 +163,7 @@ RSpec.describe Admin::EducatorsController, type: :controller do
     end
 
     context 'with invalid params' do
-      let(:expected_flash) { I18n.t('admin.educators.create.error') }
+      let(:expected_flash) { I18n.t('admin.courses.create.error') }
 
       before { post :create, invalid_params }
 
@@ -224,11 +207,11 @@ RSpec.describe Admin::EducatorsController, type: :controller do
 
         it do
           expect(post :create, valid_params)
-            .to redirect_to(admin_educators_path)
+            .to redirect_to(admin_courses_path)
         end
         it do
           expect{ post :create, valid_params }
-            .to change{ Educator.count }.by(1)
+            .to change{ Course.count }.by(1)
         end
       end
 
@@ -242,11 +225,11 @@ RSpec.describe Admin::EducatorsController, type: :controller do
 
         it do
           expect(post :create, valid_params)
-            .to redirect_to(admin_educators_path)
+            .to redirect_to(admin_courses_path)
         end
         it do
           expect{ post :create, valid_params }
-            .to change{ Educator.count }.by(1)
+            .to change{ Course.count }.by(1)
         end
       end
     end
@@ -254,7 +237,7 @@ RSpec.describe Admin::EducatorsController, type: :controller do
 
   describe '#show' do
     describe '#template' do
-      before { get :show, params: { id: educator } }
+      before { get :show, params: { id: course } }
       render_views
 
       it { is_expected.to respond_with :success }
@@ -262,21 +245,21 @@ RSpec.describe Admin::EducatorsController, type: :controller do
     end
 
     describe '#exposes' do
-      before { get :show, params: { id: educator } }
-      it { expect(controller.educator).to eq(educator) }
+      before { get :show, params: { id: course } }
+      it { expect(controller.course).to eq(course) }
     end
 
     describe '#helper_methods' do
       describe 'javascript' do
-        let(:expected_result) { "views/admin/educators/show" }
-        before { get :show, params: { id: educator } }
+        let(:expected_result) { "views/admin/courses/show" }
+        before { get :show, params: { id: course } }
 
         it { expect(controller.send(:javascript)).to eq(expected_result) }
       end
 
       describe 'stylesheet' do
-        let(:expected_result) { "views/admin/educators/show" }
-        before { get :show, params: { id: educator } }
+        let(:expected_result) { "views/admin/courses/show" }
+        before { get :show, params: { id: course } }
 
         it { expect(controller.send(:stylesheet)).to eq(expected_result) }
       end
@@ -290,7 +273,7 @@ RSpec.describe Admin::EducatorsController, type: :controller do
       before do
         sign_out user
         sign_in other_user
-        get :show, params: { id: educator }
+        get :show, params: { id: course }
       end
 
       context 'when a student user tries to access' do
@@ -316,7 +299,7 @@ RSpec.describe Admin::EducatorsController, type: :controller do
 
   describe '#edit' do
     describe '#template' do
-      before { get :edit, params: { id: educator } }
+      before { get :edit, params: { id: course } }
       render_views
 
       it { is_expected.to respond_with :success }
@@ -324,26 +307,25 @@ RSpec.describe Admin::EducatorsController, type: :controller do
     end
 
     describe '#exposes' do
-      before { get :edit, params: { id: educator } }
-      it { expect(controller.educator).to eq(educator) }
+      before { get :edit, params: { id: course } }
+      it { expect(controller.course).to eq(course) }
     end
 
     describe '#helper_methods' do
       describe 'javascript' do
-        let(:expected_result) { "views/admin/educators/edit" }
-        before { get :edit, params: { id: educator } }
+        let(:expected_result) { "views/admin/courses/edit" }
+        before { get :edit, params: { id: course } }
 
         it { expect(controller.send(:javascript)).to eq(expected_result) }
       end
 
       describe 'stylesheet' do
-        let(:expected_result) { "views/admin/educators/edit" }
-        before { get :edit, params: { id: educator } }
+        let(:expected_result) { "views/admin/courses/edit" }
+        before { get :edit, params: { id: course } }
 
         it { expect(controller.send(:stylesheet)).to eq(expected_result) }
       end
     end
-
 
     describe '#permissions' do
       let(:role)       { :secretary }
@@ -352,7 +334,7 @@ RSpec.describe Admin::EducatorsController, type: :controller do
       before do
         sign_out user
         sign_in other_user
-        get :edit, params: { id: educator }
+        get :edit, params: { id: course }
       end
 
       context 'when a student user tries to access' do
@@ -377,31 +359,30 @@ RSpec.describe Admin::EducatorsController, type: :controller do
   end
 
   describe '#update' do
-    let(:valid_educator) do
-      build(:educator, user: educator.user, university: university,
-        created_at: educator.created_at)
+    let(:valid_course) do
+      build(:course, university: university, created_at: course.created_at)
     end
-    let(:invalid_educator) do
-      build(:educator, :invalid, user: user, university: university)
+    let(:invalid_course) do
+      build(:course, :invalid, university: university)
     end
-    let(:valid_attributes)   { valid_educator.attributes }
-    let(:invalid_attributes) { invalid_educator.attributes }
+    let(:valid_attributes)   { valid_course.attributes }
+    let(:invalid_attributes) { invalid_course.attributes }
     let(:valid_params) do
-      { params: { id: educator, educator: valid_attributes } }
+      { params: { id: course, course: valid_attributes } }
     end
     let(:invalid_params) do
-      { params: { id: educator, educator: invalid_attributes } }
+      { params: { id: course, course: invalid_attributes } }
     end
 
     context 'permitted params' do
       it do
         is_expected.to permit(*permitted_params)
-          .for(:update, valid_params).on(:educator)
+          .for(:update, valid_params).on(:course)
       end
     end
 
     context 'with valid params' do
-      let(:expected_flash) { I18n.t('admin.educators.update.success') }
+      let(:expected_flash) { I18n.t('admin.courses.update.success') }
 
       before { patch :update, valid_params }
 
@@ -410,7 +391,7 @@ RSpec.describe Admin::EducatorsController, type: :controller do
     end
 
     context 'with invalid params' do
-      let(:expected_flash) { I18n.t('admin.educators.update.error') }
+      let(:expected_flash) { I18n.t('admin.courses.update.error') }
 
       before { patch :update, invalid_params }
 
@@ -421,8 +402,8 @@ RSpec.describe Admin::EducatorsController, type: :controller do
     describe '#permissions' do
       let(:role)       { :secretary }
       let(:other_user) { create(:user, role: role) }
-      let(:educator_attributes) do
-        valid_educator.attributes.except('id', 'updated_at')
+      let(:course_attributes) do
+        valid_course.attributes.except('id', 'updated_at')
       end
 
       before do
@@ -442,42 +423,42 @@ RSpec.describe Admin::EducatorsController, type: :controller do
       end
 
       context 'when a secretary user tries to access' do
-        before { educator.reload }
+        before { course.reload }
 
-        it { is_expected.to redirect_to admin_educator_path(educator) }
-        it { expect(educator).to have_attributes(educator_attributes) }
+        it { is_expected.to redirect_to admin_course_path(course) }
+        it { expect(course).to have_attributes(course_attributes) }
       end
 
       context 'when a admin user tries to access' do
         let(:role) { :admin }
 
-        before { educator.reload }
+        before { course.reload }
 
-        it { is_expected.to redirect_to admin_educator_path(educator) }
-        it { expect(educator).to have_attributes(educator_attributes) }
+        it { is_expected.to redirect_to admin_course_path(course) }
+        it { expect(course).to have_attributes(course_attributes) }
       end
     end
   end
 
   describe '#destroy' do
-    let!(:educator) { create(:educator) }
+    let!(:course) { create(:course) }
 
     context 'always' do
-      before { delete :destroy, params: { id: educator } }
+      before { delete :destroy, params: { id: course } }
 
       it { is_expected.to redirect_to action: :index }
     end
 
     context 'with valid params' do
       it do
-        expect{ delete :destroy, params: { id: educator } }
-          .to change{ Educator.count }.by(-1)
+        expect{ delete :destroy, params: { id: course } }
+          .to change{ Course.count }.by(-1)
       end
 
       context 'shows flash' do
-        let(:expected_flash) { I18n.t('admin.educators.destroy.success') }
+        let(:expected_flash) { I18n.t('admin.courses.destroy.success') }
 
-        before { delete :destroy, params: { id: educator } }
+        before { delete :destroy, params: { id: course } }
 
         it { expect(controller).to set_flash[:notice].to(expected_flash) }
       end
@@ -485,18 +466,18 @@ RSpec.describe Admin::EducatorsController, type: :controller do
 
     context 'with invalid params' do
       before do
-        allow_any_instance_of(Educator).to receive(:destroy).and_return(false)
+        allow_any_instance_of(Course).to receive(:destroy).and_return(false)
       end
 
       it do
-        expect{ delete :destroy, params: { id: educator } }
-          .not_to change{ Educator.count }
+        expect{ delete :destroy, params: { id: course } }
+          .not_to change{ Course.count }
       end
 
       context 'shows flash' do
-        let(:expected_flash) { I18n.t('admin.educators.destroy.error') }
+        let(:expected_flash) { I18n.t('admin.courses.destroy.error') }
 
-        before { delete :destroy, params: { id: educator } }
+        before { delete :destroy, params: { id: course } }
 
         it { expect(controller).to set_flash[:alert].to(expected_flash) }
       end
@@ -509,7 +490,7 @@ RSpec.describe Admin::EducatorsController, type: :controller do
       before do
         sign_out user
         sign_in other_user
-        delete :destroy, params: { id: educator }
+        delete :destroy, params: { id: course }
       end
 
       context 'when a student user tries to access' do
@@ -523,9 +504,9 @@ RSpec.describe Admin::EducatorsController, type: :controller do
       end
 
       context 'when a secretary user tries to access' do
-        it { is_expected.to redirect_to admin_educators_path }
+        it { is_expected.to redirect_to admin_courses_path }
         it do
-          expect{ Educator.find(educator.id) }
+          expect{ Course.find(course.id) }
             .to raise_exception{ ActiveRecord::RecordNotFound }
         end
       end
@@ -533,9 +514,9 @@ RSpec.describe Admin::EducatorsController, type: :controller do
       context 'when a admin user tries to access' do
         let(:role) { :admin }
 
-        it { is_expected.to redirect_to admin_educators_path }
+        it { is_expected.to redirect_to admin_courses_path }
         it do
-          expect{ Educator.find(educator.id) }
+          expect{ Course.find(course.id) }
             .to raise_exception{ ActiveRecord::RecordNotFound }
         end
       end
