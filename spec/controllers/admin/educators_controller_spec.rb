@@ -21,11 +21,11 @@ RSpec.describe Admin::EducatorsController, type: :controller do
 
   describe '#index' do
     describe '#template' do
-      before { get :index }
-      render_views
+      let(:action) { :index }
 
-      it { is_expected.to respond_with :success }
-      it { is_expected.to render_template :index }
+      before { get :index }
+
+      include_examples 'admin_templates'
     end
 
     describe '#exposes' do
@@ -34,27 +34,14 @@ RSpec.describe Admin::EducatorsController, type: :controller do
     end
 
     describe '#helper_methods' do
-      describe 'fields' do
-        let(:expected_result) { ['registration', 'name'] }
+      let(:fields) { ['registration', 'name'] }
+      let(:path)   { 'views/admin/educators/index' }
 
-        it 'fields' do
-          expect(controller.send(:fields)).to eq(expected_result)
-        end
-      end
+      before { get :index }
 
-      describe 'javascript' do
-        let(:expected_result) { "views/admin/educators/index" }
-        before { get :index }
-
-        it { expect(controller.send(:javascript)).to eq(expected_result) }
-      end
-
-      describe 'stylesheet' do
-        let(:expected_result) { "views/admin/educators/index" }
-        before { get :index }
-
-        it { expect(controller.send(:stylesheet)).to eq(expected_result) }
-      end
+      include_examples 'admin_fields_helper_method'
+      include_examples 'admin_javascript_helper_method'
+      include_examples 'admin_stylesheet_helper_method'
     end
 
     describe '#permissions' do
@@ -64,11 +51,11 @@ RSpec.describe Admin::EducatorsController, type: :controller do
 
   describe '#new' do
     describe '#template' do
-      before { get :new }
-      render_views
+      let(:action) { :new }
 
-      it { is_expected.to respond_with :success }
-      it { is_expected.to render_template :new }
+      before { get :new }
+
+      include_examples 'admin_templates'
     end
 
     describe '#exposes' do
@@ -77,19 +64,12 @@ RSpec.describe Admin::EducatorsController, type: :controller do
     end
 
     describe '#helper_methods' do
-      describe 'javascript' do
-        let(:expected_result) { "views/admin/educators/new" }
-        before { get :new }
+      let(:path) { 'views/admin/educators/new' }
 
-        it { expect(controller.send(:javascript)).to eq(expected_result) }
-      end
+      before { get :new }
 
-      describe 'stylesheet' do
-        let(:expected_result) { "views/admin/educators/new" }
-        before { get :new }
-
-        it { expect(controller.send(:stylesheet)).to eq(expected_result) }
-      end
+      include_examples 'admin_javascript_helper_method'
+      include_examples 'admin_stylesheet_helper_method'
     end
 
     describe '#permissions' do
@@ -146,11 +126,11 @@ RSpec.describe Admin::EducatorsController, type: :controller do
     let(:valid_params) { { params: { id: educator } } }
 
     describe '#template' do
-      before { get :show, valid_params }
-      render_views
+      let(:action) { :show }
 
-      it { is_expected.to respond_with :success }
-      it { is_expected.to render_template :show }
+      before { get :show, valid_params }
+
+      include_examples 'admin_templates'
     end
 
     describe '#exposes' do
@@ -159,19 +139,12 @@ RSpec.describe Admin::EducatorsController, type: :controller do
     end
 
     describe '#helper_methods' do
-      describe 'javascript' do
-        let(:expected_result) { "views/admin/educators/show" }
-        before { get :show, valid_params }
+      let(:path) { 'views/admin/educators/show' }
 
-        it { expect(controller.send(:javascript)).to eq(expected_result) }
-      end
+      before { get :show, valid_params }
 
-      describe 'stylesheet' do
-        let(:expected_result) { "views/admin/educators/show" }
-        before { get :show, valid_params }
-
-        it { expect(controller.send(:stylesheet)).to eq(expected_result) }
-      end
+      include_examples 'admin_javascript_helper_method'
+      include_examples 'admin_stylesheet_helper_method'
     end
 
     describe '#permissions' do
@@ -183,11 +156,11 @@ RSpec.describe Admin::EducatorsController, type: :controller do
     let(:valid_params) { { params: { id: educator.id } } }
 
     describe '#template' do
-      before { get :edit, valid_params }
-      render_views
+      let(:action) { :edit }
 
-      it { is_expected.to respond_with :success }
-      it { is_expected.to render_template :edit }
+      before { get :edit, valid_params }
+
+      include_examples 'admin_templates'
     end
 
     describe '#exposes' do
@@ -196,19 +169,12 @@ RSpec.describe Admin::EducatorsController, type: :controller do
     end
 
     describe '#helper_methods' do
-      describe 'javascript' do
-        let(:expected_result) { "views/admin/educators/edit" }
-        before { get :edit, valid_params }
+      let(:path) { 'views/admin/educators/edit' }
 
-        it { expect(controller.send(:javascript)).to eq(expected_result) }
-      end
+      before { get :edit, valid_params }
 
-      describe 'stylesheet' do
-        let(:expected_result) { "views/admin/educators/edit" }
-        before { get :edit, valid_params }
-
-        it { expect(controller.send(:stylesheet)).to eq(expected_result) }
-      end
+      include_examples 'admin_javascript_helper_method'
+      include_examples 'admin_stylesheet_helper_method'
     end
 
     describe '#permissions' do
@@ -264,7 +230,7 @@ RSpec.describe Admin::EducatorsController, type: :controller do
   end
 
   describe '#destroy' do
-    let!(:educator) { create(:educator) }
+    let!(:educator)    { create(:educator) }
     let(:valid_params) { { params: { id: educator.id } } }
 
     context 'always' do
