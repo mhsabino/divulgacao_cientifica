@@ -1,7 +1,6 @@
 class Admin::EducatorsController < AdministratorController
+  include Admin::BaseController
 
-  before_action :authenticate_user!
-  before_action :redirect_unauthorized_user
   before_action :educator_university, only: :create
   before_action :educator_course, only: :create
   before_action :build_educator_user, only: :new
@@ -16,68 +15,22 @@ class Admin::EducatorsController < AdministratorController
     user_attributes: [:id, :email, :password, :password_confirmation]
   ]
 
-  # exposes and helper methods
+  # exposures
 
   expose(:educator, attributes: :educator_params)
   expose(:educators) { find_educators }
-
-  helper_method [:fields, :javascript, :stylesheet]
-
-  # actions
-
-  def index
-  end
-
-  def new
-  end
-
-  def create
-    if educator.save
-      flash[:notice] = t('.success')
-      redirect_to action: :index
-    else
-      flash[:alert] = t('.error')
-      render :new
-    end
-  end
-
-  def show
-  end
-
-  def edit
-  end
-
-  def update
-    if educator.update(educator_params)
-      flash[:notice] = t('.success')
-      redirect_to action: :show
-    else
-      flash[:alert] = t('.error')
-      render :edit
-    end
-  end
-
-  def destroy
-    if educator.destroy
-      flash[:notice] = t('.success')
-    else
-      flash[:alert] = t('.error')
-    end
-
-    redirect_to action: :index
-  end
 
   # methods
 
   private
 
-  def redirect_unauthorized_user
-    redirect_to admin_root_path unless current_user.admin? || current_user.secretary?
-  end
+  # finders
 
   def find_educators
     Educator.all
   end
+
+  # params
 
   def educator_params
     params.require(:educator).permit(*PERMITTED_PARAMS)
@@ -85,16 +38,18 @@ class Admin::EducatorsController < AdministratorController
 
   # helper methods
 
-  def javascript
-    "views/#{controller_path}/#{action_name}"
-  end
-
-  def stylesheet
-    "views/#{controller_path}/#{action_name}"
-  end
-
   def fields
     %w(registration name)
+  end
+
+  # base controller
+
+  def resource
+    educator
+  end
+
+  def resource_params
+    educator_params
   end
 
   # setter methods

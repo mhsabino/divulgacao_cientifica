@@ -1,77 +1,28 @@
 class Admin::CoursesController < AdministratorController
+  include Admin::BaseController
 
-  before_action :authenticate_user!
-  before_action :redirect_unauthorized_user
   before_action :course_university, only: :create
 
   # constants
 
   PERMITTED_PARAMS = [ :name ]
 
-  # exposes and helper methods
+  # exposures
 
   expose(:course, attributes: :course_params)
   expose(:courses) { find_courses }
-
-  helper_method [:fields, :javascript, :stylesheet]
-
-  # actions
-
-  def index
-  end
-
-  def new
-  end
-
-  def create
-    if course.save
-      flash[:notice] = t('.success')
-      redirect_to action: :index
-    else
-      flash[:alert] = t('.error')
-      render :new
-    end
-  end
-
-  def show
-  end
-
-  def edit
-  end
-
-  def update
-    if course.update(course_params)
-      flash[:notice] = t('.success')
-      redirect_to action: :show
-    else
-      flash[:alert] = t('.error')
-      render :edit
-    end
-  end
-
-  def destroy
-    if course.destroy
-      flash[:notice] = t('.success')
-    else
-      flash[:alert] = t('.error')
-    end
-
-    redirect_to action: :index
-  end
 
   # methods
 
   private
 
-  def redirect_unauthorized_user
-    unless current_user.admin? || current_user.secretary?
-      redirect_to admin_root_path
-    end
-  end
+  # finders
 
   def find_courses
     Course.all
   end
+
+  # params
 
   def course_params
     params.require(:course).permit(*PERMITTED_PARAMS)
@@ -79,16 +30,18 @@ class Admin::CoursesController < AdministratorController
 
   # helper methods
 
-  def javascript
-    "views/#{controller_path}/#{action_name}"
-  end
-
-  def stylesheet
-    "views/#{controller_path}/#{action_name}"
-  end
-
   def fields
     %w(name)
+  end
+
+  # base controller
+
+  def resource
+    course
+  end
+
+  def resource_params
+    course_params
   end
 
   # setter methods
