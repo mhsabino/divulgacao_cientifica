@@ -188,10 +188,10 @@ RSpec.describe Admin::EducatorsController, type: :controller do
     let(:valid_attributes)   { valid_educator.attributes }
     let(:invalid_attributes) { invalid_educator.attributes }
     let(:valid_params) do
-      { params: { id: educator, educator: valid_attributes } }
+      { params: { id: educator.id, educator: valid_attributes } }
     end
     let(:invalid_params) do
-      { params: { id: educator, educator: invalid_attributes } }
+      { params: { id: educator.id, educator: invalid_attributes } }
     end
 
     context 'permitted params' do
