@@ -58,32 +58,7 @@ RSpec.describe Admin::EducatorsController, type: :controller do
     end
 
     describe '#permissions' do
-      let(:role)       { :secretary }
-      let(:other_user) { create(:user, role: role) }
-
-      before do
-        sign_out user
-        sign_in other_user
-        get :index
-      end
-
-      context 'when a student user tries to access' do
-        let(:role) { :student }
-        it { is_expected.to redirect_to admin_root_path }
-      end
-
-      context 'when a educator user tries to access' do
-        let(:role) { :educator }
-        it { is_expected.to redirect_to admin_root_path }
-      end
-
-      context 'when a secretary user tries to access' do
-        it { is_expected.to render_template :index }
-      end
-
-      context 'when a admin user tries to access' do
-        it { is_expected.to render_template :index }
-      end
+      include_examples 'admin_index_permission'
     end
   end
 
@@ -118,33 +93,7 @@ RSpec.describe Admin::EducatorsController, type: :controller do
     end
 
     describe '#permissions' do
-      let(:role)       { :secretary }
-      let(:other_user) { create(:user, role: role) }
-
-      before do
-        sign_out user
-        sign_in other_user
-        get :new
-      end
-
-      context 'when a student user tries to access' do
-        let(:role) { :student }
-        it { is_expected.to redirect_to admin_root_path }
-      end
-
-      context 'when a educator user tries to access' do
-        let(:role) { :educator }
-        it { is_expected.to redirect_to admin_root_path }
-      end
-
-      context 'when a secretary user tries to access' do
-        it { is_expected.to render_template :new }
-      end
-
-      context 'when a admin user tries to access' do
-        let(:role) { :admin }
-        it { is_expected.to render_template :new }
-      end
+      include_examples 'admin_new_permission'
     end
   end
 
@@ -189,72 +138,15 @@ RSpec.describe Admin::EducatorsController, type: :controller do
     end
 
     describe '#permissions' do
-      let(:role)       { :secretary }
-      let(:other_user) { create(:user, role: role) }
-
-      context 'when a student user tries to access' do
-        let(:role) { :student }
-
-        before do
-          sign_out user
-          sign_in other_user
-          post :create, valid_params
-        end
-
-        it { is_expected.to redirect_to admin_root_path }
-      end
-
-      context 'when a educator user tries to access' do
-        let(:role) { :educator }
-
-        before do
-          sign_out user
-          sign_in other_user
-          post :create, valid_params
-        end
-
-        it { is_expected.to redirect_to admin_root_path }
-      end
-
-      context 'when a secretary user tries to access' do
-        before do
-          sign_out user
-          sign_in other_user
-        end
-
-        it do
-          expect(post :create, valid_params)
-            .to redirect_to(admin_educators_path)
-        end
-        it do
-          expect{ post :create, valid_params }
-            .to change{ Educator.count }.by(1)
-        end
-      end
-
-      context 'when a admin user tries to access' do
-        let(:role) { :admin }
-
-        before do
-          sign_out user
-          sign_in other_user
-        end
-
-        it do
-          expect(post :create, valid_params)
-            .to redirect_to(admin_educators_path)
-        end
-        it do
-          expect{ post :create, valid_params }
-            .to change{ Educator.count }.by(1)
-        end
-      end
+      include_examples 'admin_create_permission', Educator
     end
   end
 
   describe '#show' do
+    let(:valid_params) { { params: { id: educator } } }
+
     describe '#template' do
-      before { get :show, params: { id: educator } }
+      before { get :show, valid_params }
       render_views
 
       it { is_expected.to respond_with :success }
@@ -262,61 +154,36 @@ RSpec.describe Admin::EducatorsController, type: :controller do
     end
 
     describe '#exposes' do
-      before { get :show, params: { id: educator } }
+      before { get :show, valid_params }
       it { expect(controller.educator).to eq(educator) }
     end
 
     describe '#helper_methods' do
       describe 'javascript' do
         let(:expected_result) { "views/admin/educators/show" }
-        before { get :show, params: { id: educator } }
+        before { get :show, valid_params }
 
         it { expect(controller.send(:javascript)).to eq(expected_result) }
       end
 
       describe 'stylesheet' do
         let(:expected_result) { "views/admin/educators/show" }
-        before { get :show, params: { id: educator } }
+        before { get :show, valid_params }
 
         it { expect(controller.send(:stylesheet)).to eq(expected_result) }
       end
     end
 
-
     describe '#permissions' do
-      let(:role)       { :secretary }
-      let(:other_user) { create(:user, role: role) }
-
-      before do
-        sign_out user
-        sign_in other_user
-        get :show, params: { id: educator }
-      end
-
-      context 'when a student user tries to access' do
-        let(:role) { :student }
-        it { is_expected.to redirect_to admin_root_path }
-      end
-
-      context 'when a educator user tries to access' do
-        let(:role) { :educator }
-        it { is_expected.to redirect_to admin_root_path }
-      end
-
-      context 'when a secretary user tries to access' do
-        it { is_expected.to render_template :show }
-      end
-
-      context 'when a admin user tries to access' do
-        let(:role) { :admin }
-        it { is_expected.to render_template :show }
-      end
+      include_examples 'admin_show_permission'
     end
   end
 
   describe '#edit' do
+    let(:valid_params) { { params: { id: educator.id } } }
+
     describe '#template' do
-      before { get :edit, params: { id: educator } }
+      before { get :edit, valid_params }
       render_views
 
       it { is_expected.to respond_with :success }
@@ -324,55 +191,28 @@ RSpec.describe Admin::EducatorsController, type: :controller do
     end
 
     describe '#exposes' do
-      before { get :edit, params: { id: educator } }
+      before { get :edit, valid_params }
       it { expect(controller.educator).to eq(educator) }
     end
 
     describe '#helper_methods' do
       describe 'javascript' do
         let(:expected_result) { "views/admin/educators/edit" }
-        before { get :edit, params: { id: educator } }
+        before { get :edit, valid_params }
 
         it { expect(controller.send(:javascript)).to eq(expected_result) }
       end
 
       describe 'stylesheet' do
         let(:expected_result) { "views/admin/educators/edit" }
-        before { get :edit, params: { id: educator } }
+        before { get :edit, valid_params }
 
         it { expect(controller.send(:stylesheet)).to eq(expected_result) }
       end
     end
 
-
     describe '#permissions' do
-      let(:role)       { :secretary }
-      let(:other_user) { create(:user, role: role) }
-
-      before do
-        sign_out user
-        sign_in other_user
-        get :edit, params: { id: educator }
-      end
-
-      context 'when a student user tries to access' do
-        let(:role) { :student }
-        it { is_expected.to redirect_to admin_root_path }
-      end
-
-      context 'when a educator user tries to access' do
-        let(:role) { :educator }
-        it { is_expected.to redirect_to admin_root_path }
-      end
-
-      context 'when a secretary user tries to access' do
-        it { is_expected.to render_template :edit }
-      end
-
-      context 'when a admin user tries to access' do
-        let(:role) { :admin }
-        it { is_expected.to render_template :edit }
-      end
+      include_examples 'admin_edit_permission'
     end
   end
 
@@ -419,65 +259,30 @@ RSpec.describe Admin::EducatorsController, type: :controller do
     end
 
     describe '#permissions' do
-      let(:role)       { :secretary }
-      let(:other_user) { create(:user, role: role) }
-      let(:educator_attributes) do
-        valid_educator.attributes.except('id', 'updated_at')
-      end
-
-      before do
-        sign_out user
-        sign_in other_user
-        patch :update, valid_params
-      end
-
-      context 'when a student user tries to access' do
-        let(:role) { :student }
-        it { is_expected.to redirect_to admin_root_path }
-      end
-
-      context 'when a educator user tries to access' do
-        let(:role) { :educator }
-        it { is_expected.to redirect_to admin_root_path }
-      end
-
-      context 'when a secretary user tries to access' do
-        before { educator.reload }
-
-        it { is_expected.to redirect_to admin_educator_path(educator) }
-        it { expect(educator).to have_attributes(educator_attributes) }
-      end
-
-      context 'when a admin user tries to access' do
-        let(:role) { :admin }
-
-        before { educator.reload }
-
-        it { is_expected.to redirect_to admin_educator_path(educator) }
-        it { expect(educator).to have_attributes(educator_attributes) }
-      end
+      include_examples 'admin_update_permission', Educator
     end
   end
 
   describe '#destroy' do
     let!(:educator) { create(:educator) }
+    let(:valid_params) { { params: { id: educator.id } } }
 
     context 'always' do
-      before { delete :destroy, params: { id: educator } }
+      before { delete :destroy, valid_params }
 
       it { is_expected.to redirect_to action: :index }
     end
 
     context 'with valid params' do
       it do
-        expect{ delete :destroy, params: { id: educator } }
+        expect{ delete :destroy, valid_params }
           .to change{ Educator.count }.by(-1)
       end
 
       context 'shows flash' do
         let(:expected_flash) { I18n.t('admin.educators.destroy.success') }
 
-        before { delete :destroy, params: { id: educator } }
+        before { delete :destroy, valid_params }
 
         it { expect(controller).to set_flash[:notice].to(expected_flash) }
       end
@@ -489,56 +294,21 @@ RSpec.describe Admin::EducatorsController, type: :controller do
       end
 
       it do
-        expect{ delete :destroy, params: { id: educator } }
+        expect{ delete :destroy, valid_params }
           .not_to change{ Educator.count }
       end
 
       context 'shows flash' do
         let(:expected_flash) { I18n.t('admin.educators.destroy.error') }
 
-        before { delete :destroy, params: { id: educator } }
+        before { delete :destroy, valid_params }
 
         it { expect(controller).to set_flash[:alert].to(expected_flash) }
       end
     end
 
     describe '#permissions' do
-      let(:role)       { :secretary }
-      let(:other_user) { create(:user, role: role) }
-
-      before do
-        sign_out user
-        sign_in other_user
-        delete :destroy, params: { id: educator }
-      end
-
-      context 'when a student user tries to access' do
-        let(:role) { :student }
-        it { is_expected.to redirect_to admin_root_path }
-      end
-
-      context 'when a educator user tries to access' do
-        let(:role) { :educator }
-        it { is_expected.to redirect_to admin_root_path }
-      end
-
-      context 'when a secretary user tries to access' do
-        it { is_expected.to redirect_to admin_educators_path }
-        it do
-          expect{ Educator.find(educator.id) }
-            .to raise_exception{ ActiveRecord::RecordNotFound }
-        end
-      end
-
-      context 'when a admin user tries to access' do
-        let(:role) { :admin }
-
-        it { is_expected.to redirect_to admin_educators_path }
-        it do
-          expect{ Educator.find(educator.id) }
-            .to raise_exception{ ActiveRecord::RecordNotFound }
-        end
-      end
+      include_examples 'admin_destroy_permission', Educator
     end
   end
 

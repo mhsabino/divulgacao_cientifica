@@ -48,32 +48,7 @@ RSpec.describe Admin::CoursesController, type: :controller do
     end
 
     describe '#permissions' do
-      let(:role)       { :secretary }
-      let(:other_user) { create(:user, role: role) }
-
-      before do
-        sign_out user
-        sign_in other_user
-        get :index
-      end
-
-      context 'when a student user tries to access' do
-        let(:role) { :student }
-        it { is_expected.to redirect_to admin_root_path }
-      end
-
-      context 'when a educator user tries to access' do
-        let(:role) { :educator }
-        it { is_expected.to redirect_to admin_root_path }
-      end
-
-      context 'when a secretary user tries to access' do
-        it { is_expected.to render_template :index }
-      end
-
-      context 'when a admin user tries to access' do
-        it { is_expected.to render_template :index }
-      end
+      include_examples 'admin_index_permission'
     end
   end
 
@@ -108,33 +83,7 @@ RSpec.describe Admin::CoursesController, type: :controller do
     end
 
     describe '#permissions' do
-      let(:role)       { :secretary }
-      let(:other_user) { create(:user, role: role) }
-
-      before do
-        sign_out user
-        sign_in other_user
-        get :new
-      end
-
-      context 'when a student user tries to access' do
-        let(:role) { :student }
-        it { is_expected.to redirect_to admin_root_path }
-      end
-
-      context 'when a educator user tries to access' do
-        let(:role) { :educator }
-        it { is_expected.to redirect_to admin_root_path }
-      end
-
-      context 'when a secretary user tries to access' do
-        it { is_expected.to render_template :new }
-      end
-
-      context 'when a admin user tries to access' do
-        let(:role) { :admin }
-        it { is_expected.to render_template :new }
-      end
+      include_examples 'admin_new_permission'
     end
   end
 
@@ -172,72 +121,15 @@ RSpec.describe Admin::CoursesController, type: :controller do
     end
 
     describe '#permissions' do
-      let(:role)       { :secretary }
-      let(:other_user) { create(:user, role: role) }
-
-      context 'when a student user tries to access' do
-        let(:role) { :student }
-
-        before do
-          sign_out user
-          sign_in other_user
-          post :create, valid_params
-        end
-
-        it { is_expected.to redirect_to admin_root_path }
-      end
-
-      context 'when a educator user tries to access' do
-        let(:role) { :educator }
-
-        before do
-          sign_out user
-          sign_in other_user
-          post :create, valid_params
-        end
-
-        it { is_expected.to redirect_to admin_root_path }
-      end
-
-      context 'when a secretary user tries to access' do
-        before do
-          sign_out user
-          sign_in other_user
-        end
-
-        it do
-          expect(post :create, valid_params)
-            .to redirect_to(admin_courses_path)
-        end
-        it do
-          expect{ post :create, valid_params }
-            .to change{ Course.count }.by(1)
-        end
-      end
-
-      context 'when a admin user tries to access' do
-        let(:role) { :admin }
-
-        before do
-          sign_out user
-          sign_in other_user
-        end
-
-        it do
-          expect(post :create, valid_params)
-            .to redirect_to(admin_courses_path)
-        end
-        it do
-          expect{ post :create, valid_params }
-            .to change{ Course.count }.by(1)
-        end
-      end
+      include_examples 'admin_create_permission', Course
     end
   end
 
   describe '#show' do
+    let(:valid_params) { { params: { id: course.id } } }
+
     describe '#template' do
-      before { get :show, params: { id: course } }
+      before { get :show, valid_params }
       render_views
 
       it { is_expected.to respond_with :success }
@@ -245,61 +137,36 @@ RSpec.describe Admin::CoursesController, type: :controller do
     end
 
     describe '#exposes' do
-      before { get :show, params: { id: course } }
+      before { get :show, valid_params }
       it { expect(controller.course).to eq(course) }
     end
 
     describe '#helper_methods' do
       describe 'javascript' do
         let(:expected_result) { "views/admin/courses/show" }
-        before { get :show, params: { id: course } }
+        before { get :show, valid_params }
 
         it { expect(controller.send(:javascript)).to eq(expected_result) }
       end
 
       describe 'stylesheet' do
         let(:expected_result) { "views/admin/courses/show" }
-        before { get :show, params: { id: course } }
+        before { get :show, valid_params }
 
         it { expect(controller.send(:stylesheet)).to eq(expected_result) }
       end
     end
 
-
     describe '#permissions' do
-      let(:role)       { :secretary }
-      let(:other_user) { create(:user, role: role) }
-
-      before do
-        sign_out user
-        sign_in other_user
-        get :show, params: { id: course }
-      end
-
-      context 'when a student user tries to access' do
-        let(:role) { :student }
-        it { is_expected.to redirect_to admin_root_path }
-      end
-
-      context 'when a educator user tries to access' do
-        let(:role) { :educator }
-        it { is_expected.to redirect_to admin_root_path }
-      end
-
-      context 'when a secretary user tries to access' do
-        it { is_expected.to render_template :show }
-      end
-
-      context 'when a admin user tries to access' do
-        let(:role) { :admin }
-        it { is_expected.to render_template :show }
-      end
+      include_examples 'admin_show_permission'
     end
   end
 
   describe '#edit' do
+    let(:valid_params) { { params: { id: course.id } } }
+
     describe '#template' do
-      before { get :edit, params: { id: course } }
+      before { get :edit, params: { id: course.id } }
       render_views
 
       it { is_expected.to respond_with :success }
@@ -307,54 +174,28 @@ RSpec.describe Admin::CoursesController, type: :controller do
     end
 
     describe '#exposes' do
-      before { get :edit, params: { id: course } }
+      before { get :edit, valid_params }
       it { expect(controller.course).to eq(course) }
     end
 
     describe '#helper_methods' do
       describe 'javascript' do
         let(:expected_result) { "views/admin/courses/edit" }
-        before { get :edit, params: { id: course } }
+        before { get :edit, valid_params }
 
         it { expect(controller.send(:javascript)).to eq(expected_result) }
       end
 
       describe 'stylesheet' do
         let(:expected_result) { "views/admin/courses/edit" }
-        before { get :edit, params: { id: course } }
+        before { get :edit, valid_params }
 
         it { expect(controller.send(:stylesheet)).to eq(expected_result) }
       end
     end
 
     describe '#permissions' do
-      let(:role)       { :secretary }
-      let(:other_user) { create(:user, role: role) }
-
-      before do
-        sign_out user
-        sign_in other_user
-        get :edit, params: { id: course }
-      end
-
-      context 'when a student user tries to access' do
-        let(:role) { :student }
-        it { is_expected.to redirect_to admin_root_path }
-      end
-
-      context 'when a educator user tries to access' do
-        let(:role) { :educator }
-        it { is_expected.to redirect_to admin_root_path }
-      end
-
-      context 'when a secretary user tries to access' do
-        it { is_expected.to render_template :edit }
-      end
-
-      context 'when a admin user tries to access' do
-        let(:role) { :admin }
-        it { is_expected.to render_template :edit }
-      end
+      include_examples 'admin_edit_permission'
     end
   end
 
@@ -368,10 +209,10 @@ RSpec.describe Admin::CoursesController, type: :controller do
     let(:valid_attributes)   { valid_course.attributes }
     let(:invalid_attributes) { invalid_course.attributes }
     let(:valid_params) do
-      { params: { id: course, course: valid_attributes } }
+      { params: { id: course.id, course: valid_attributes } }
     end
     let(:invalid_params) do
-      { params: { id: course, course: invalid_attributes } }
+      { params: { id: course.id, course: invalid_attributes } }
     end
 
     context 'permitted params' do
@@ -400,65 +241,30 @@ RSpec.describe Admin::CoursesController, type: :controller do
     end
 
     describe '#permissions' do
-      let(:role)       { :secretary }
-      let(:other_user) { create(:user, role: role) }
-      let(:course_attributes) do
-        valid_course.attributes.except('id', 'updated_at')
-      end
-
-      before do
-        sign_out user
-        sign_in other_user
-        patch :update, valid_params
-      end
-
-      context 'when a student user tries to access' do
-        let(:role) { :student }
-        it { is_expected.to redirect_to admin_root_path }
-      end
-
-      context 'when a educator user tries to access' do
-        let(:role) { :educator }
-        it { is_expected.to redirect_to admin_root_path }
-      end
-
-      context 'when a secretary user tries to access' do
-        before { course.reload }
-
-        it { is_expected.to redirect_to admin_course_path(course) }
-        it { expect(course).to have_attributes(course_attributes) }
-      end
-
-      context 'when a admin user tries to access' do
-        let(:role) { :admin }
-
-        before { course.reload }
-
-        it { is_expected.to redirect_to admin_course_path(course) }
-        it { expect(course).to have_attributes(course_attributes) }
-      end
+      include_examples 'admin_update_permission', Course
     end
   end
 
   describe '#destroy' do
-    let!(:course) { create(:course) }
+    let!(:course)      { create(:course) }
+    let(:valid_params) { { params: { id: course.id } } }
 
     context 'always' do
-      before { delete :destroy, params: { id: course } }
+      before { delete :destroy, valid_params }
 
       it { is_expected.to redirect_to action: :index }
     end
 
     context 'with valid params' do
       it do
-        expect{ delete :destroy, params: { id: course } }
+        expect{ delete :destroy, valid_params }
           .to change{ Course.count }.by(-1)
       end
 
       context 'shows flash' do
         let(:expected_flash) { I18n.t('admin.courses.destroy.success') }
 
-        before { delete :destroy, params: { id: course } }
+        before { delete :destroy, valid_params }
 
         it { expect(controller).to set_flash[:notice].to(expected_flash) }
       end
@@ -470,56 +276,21 @@ RSpec.describe Admin::CoursesController, type: :controller do
       end
 
       it do
-        expect{ delete :destroy, params: { id: course } }
+        expect{ delete :destroy, valid_params }
           .not_to change{ Course.count }
       end
 
       context 'shows flash' do
         let(:expected_flash) { I18n.t('admin.courses.destroy.error') }
 
-        before { delete :destroy, params: { id: course } }
+        before { delete :destroy, valid_params }
 
         it { expect(controller).to set_flash[:alert].to(expected_flash) }
       end
     end
 
     describe '#permissions' do
-      let(:role)       { :secretary }
-      let(:other_user) { create(:user, role: role) }
-
-      before do
-        sign_out user
-        sign_in other_user
-        delete :destroy, params: { id: course }
-      end
-
-      context 'when a student user tries to access' do
-        let(:role) { :student }
-        it { is_expected.to redirect_to admin_root_path }
-      end
-
-      context 'when a educator user tries to access' do
-        let(:role) { :educator }
-        it { is_expected.to redirect_to admin_root_path }
-      end
-
-      context 'when a secretary user tries to access' do
-        it { is_expected.to redirect_to admin_courses_path }
-        it do
-          expect{ Course.find(course.id) }
-            .to raise_exception{ ActiveRecord::RecordNotFound }
-        end
-      end
-
-      context 'when a admin user tries to access' do
-        let(:role) { :admin }
-
-        it { is_expected.to redirect_to admin_courses_path }
-        it do
-          expect{ Course.find(course.id) }
-            .to raise_exception{ ActiveRecord::RecordNotFound }
-        end
-      end
+      include_examples 'admin_destroy_permission', Course
     end
   end
 

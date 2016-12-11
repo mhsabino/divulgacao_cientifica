@@ -64,7 +64,9 @@ class Admin::CoursesController < AdministratorController
   private
 
   def redirect_unauthorized_user
-    redirect_to admin_root_path unless current_user.admin? || current_user.secretary?
+    unless current_user.admin? || current_user.secretary?
+      redirect_to admin_root_path
+    end
   end
 
   def find_courses
