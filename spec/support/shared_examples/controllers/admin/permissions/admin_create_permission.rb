@@ -1,4 +1,4 @@
-RSpec.shared_examples "admin_create_permission" do |model|
+RSpec.shared_examples "admin_create_permission" do
   let(:role)             { :secretary }
   let(:other_user)       { create(:user, role: role) }
   let(:model_pluralized) { model.to_s.downcase.pluralize }

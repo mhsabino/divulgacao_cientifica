@@ -1,4 +1,4 @@
-RSpec.shared_examples "admin_update_permission" do |model|
+RSpec.shared_examples "admin_update_permission" do
   let(:role)              { :secretary }
   let(:other_user)        { create(:user, role: role) }
   let(:object_attributes) { valid_attributes.except('id', 'updated_at') }

@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Admin::CoursesController, type: :controller do
+  let(:model)            { Course }
   let(:user)             { create(:user) }
   let(:university)       { create(:university) }
   let(:course)           { courses.first }
@@ -52,7 +53,7 @@ RSpec.describe Admin::CoursesController, type: :controller do
     describe '#exposes' do
       before { get :new }
 
-      it { expect(controller.course).to be_a_new(Course) }
+      it { expect(controller.course).to be_a_new(model) }
     end
 
     describe '#helper_methods' do
@@ -78,32 +79,26 @@ RSpec.describe Admin::CoursesController, type: :controller do
     let(:invalid_params)     { { params: { course: invalid_attributes } } }
 
     context 'permitted params' do
-      it do
-        is_expected.to permit(*permitted_params)
-          .for(:create, params: valid_params).on(:course)
-      end
+      let(:model_symbol)  { :course }
+      let(:action)        { :create }
+
+      include_examples 'admin_permited_params'
     end
 
     context 'with valid params' do
       let(:expected_flash) { I18n.t('admin.courses.create.success') }
 
-      before { post :create, valid_params }
-
-      it { is_expected.to redirect_to action: :index }
-      it { expect(controller).to set_flash[:notice].to(expected_flash) }
+      include_examples 'admin_create_valid_params'
     end
 
     context 'with invalid params' do
       let(:expected_flash) { I18n.t('admin.courses.create.error') }
 
-      before { post :create, invalid_params }
-
-      it { is_expected.to render_template :new }
-      it { expect(controller).to set_flash[:alert].to(expected_flash) }
+      include_examples 'admin_create_invalid_params'
     end
 
     describe '#permissions' do
-      include_examples 'admin_create_permission', Course
+      include_examples 'admin_create_permission'
     end
   end
 
@@ -186,32 +181,26 @@ RSpec.describe Admin::CoursesController, type: :controller do
     end
 
     context 'permitted params' do
-      it do
-        is_expected.to permit(*permitted_params)
-          .for(:update, valid_params).on(:course)
-      end
+      let(:model_symbol)  { :course }
+      let(:action)        { :update }
+
+      include_examples 'admin_permited_params'
     end
 
     context 'with valid params' do
       let(:expected_flash) { I18n.t('admin.courses.update.success') }
 
-      before { patch :update, valid_params }
-
-      it { is_expected.to redirect_to action: :show }
-      it { expect(controller).to set_flash[:notice].to(expected_flash) }
+      include_examples 'admin_update_valid_params'
     end
 
     context 'with invalid params' do
       let(:expected_flash) { I18n.t('admin.courses.update.error') }
 
-      before { patch :update, invalid_params }
-
-      it { is_expected.to render_template :edit }
-      it { expect(controller).to set_flash[:alert].to(expected_flash) }
+      include_examples 'admin_update_invalid_params'
     end
 
     describe '#permissions' do
-      include_examples 'admin_update_permission', Course
+      include_examples 'admin_update_permission'
     end
   end
 
@@ -226,41 +215,19 @@ RSpec.describe Admin::CoursesController, type: :controller do
     end
 
     context 'with valid params' do
-      it do
-        expect{ delete :destroy, valid_params }
-          .to change{ Course.count }.by(-1)
-      end
+      let(:expected_flash) { I18n.t('admin.courses.destroy.success') }
 
-      context 'shows flash' do
-        let(:expected_flash) { I18n.t('admin.courses.destroy.success') }
-
-        before { delete :destroy, valid_params }
-
-        it { expect(controller).to set_flash[:notice].to(expected_flash) }
-      end
+      include_examples 'admin_destroy_valid_params'
     end
 
     context 'with invalid params' do
-      before do
-        allow_any_instance_of(Course).to receive(:destroy).and_return(false)
-      end
+      let(:expected_flash) { I18n.t('admin.courses.destroy.error') }
 
-      it do
-        expect{ delete :destroy, valid_params }
-          .not_to change{ Course.count }
-      end
-
-      context 'shows flash' do
-        let(:expected_flash) { I18n.t('admin.courses.destroy.error') }
-
-        before { delete :destroy, valid_params }
-
-        it { expect(controller).to set_flash[:alert].to(expected_flash) }
-      end
+      include_examples 'admin_destroy_invalid_params'
     end
 
     describe '#permissions' do
-      include_examples 'admin_destroy_permission', Course
+      include_examples 'admin_destroy_permission'
     end
   end
 
