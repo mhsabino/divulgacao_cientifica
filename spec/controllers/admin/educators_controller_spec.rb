@@ -45,6 +45,18 @@ RSpec.describe Admin::EducatorsController, type: :controller do
       include_examples 'admin_stylesheet_helper_method'
     end
 
+    describe 'pagination' do
+      let(:per_page)             { Admin::EducatorsController::PER_PAGE }
+      let(:controller_resources) { controller.educators }
+      let!(:resources) do
+        create_list(:educator, 11, university: university)
+      end
+
+      before { get :index }
+
+      include_examples 'admin_pagination'
+    end
+
     describe '#permissions' do
       include_examples 'admin_index_permission'
     end

@@ -17,6 +17,7 @@ gem 'haml'
 gem 'devise'
 gem 'font-awesome-rails', '~> 4.7'
 gem 'simple_form'
+gem 'kaminari'
 
 group :development, :test do
   gem 'byebug', platform: :mri

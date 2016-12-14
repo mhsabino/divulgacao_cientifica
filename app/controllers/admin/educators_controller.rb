@@ -8,6 +8,8 @@ class Admin::EducatorsController < AdministratorController
 
   # constants
 
+  PER_PAGE = 10
+
   PERMITTED_PARAMS = [
     :name,
     :registration,
@@ -18,7 +20,7 @@ class Admin::EducatorsController < AdministratorController
   # exposures
 
   expose(:educator, attributes: :educator_params)
-  expose(:educators) { find_educators }
+  expose(:educators) { paginated_educators }
 
   # methods
 
@@ -28,6 +30,10 @@ class Admin::EducatorsController < AdministratorController
 
   def find_educators
     Educator.all
+  end
+
+  def paginated_educators
+    find_educators.page(params[:page]).per(PER_PAGE)
   end
 
   # params

@@ -5,12 +5,14 @@ class Admin::CoursesController < AdministratorController
 
   # constants
 
+  PER_PAGE = 10
+
   PERMITTED_PARAMS = [ :name ]
 
   # exposures
 
   expose(:course, attributes: :course_params)
-  expose(:courses) { find_courses }
+  expose(:courses) { paginated_courses }
 
   # methods
 
@@ -20,6 +22,10 @@ class Admin::CoursesController < AdministratorController
 
   def find_courses
     Course.all
+  end
+
+  def paginated_courses
+    find_courses.page(params[:page]).per(PER_PAGE)
   end
 
   # params
