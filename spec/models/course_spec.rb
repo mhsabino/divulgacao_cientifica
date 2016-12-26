@@ -30,6 +30,8 @@ RSpec.describe Course, type: :model do
   end
 
   describe 'methods' do
+    let(:university) { create(:university) }
+
     describe 'by_name' do
       let(:name)          { 'Name_' }
       let!(:courses)      { create_list(:course, 2) }
@@ -39,12 +41,39 @@ RSpec.describe Course, type: :model do
     end
 
     describe 'by_university' do
-      let(:university)    { create(:university) }
       let!(:other_course) { create(:course) }
       let!(:courses)      { create_list(:course, 2, university: university) }
 
       it do
         expect(Course.by_university(university.id)).to match_array(courses)
+      end
+    end
+
+    describe 'search' do
+      let!(:courses)  { create_list(:course, 2, university: university) }
+
+      context 'when search_term is present' do
+        let(:search_term) { 'searched' }
+        let(:collection)  { Course.all }
+        let!(:course_searched_by_name) do
+          create(:course, university: university, name: 'searched_name')
+        end
+        let(:expected_result) { [course_searched_by_name] }
+
+        it do
+          expect(Course.search(collection, search_term))
+            .to match_array(expected_result)
+        end
+      end
+
+      context 'when search_term is not present' do
+        let(:search_term) { '' }
+        let(:collection)  { Course.all }
+
+        it do
+          expect(Course.search(collection, search_term))
+            .to match_array(courses)
+        end
       end
     end
   end

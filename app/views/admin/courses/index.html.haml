@@ -5,6 +5,14 @@
   = link_to t('.new'), new_admin_course_path
 
 .col-xs-12
+  = simple_form_for :search, url: admin_courses_path, method: :get, role: :search do |f|
+    - filter_params = params.fetch(:filter, {}) || []
+
+    = text_field_tag :search, params[:search], placeholder: 'Busque aqui...'
+    = fields_for :filter do |ff|
+      = ff.hidden_field :course, value: filter_params.fetch(:course, '')
+
+.col-xs-12
   = display_admin_responsive_table(Course, courses, fields)
 
 .col-xs-12

@@ -77,7 +77,7 @@ RSpec.describe Admin::EducatorsController, type: :controller do
 
       before do
         educators
-        get :index, search: search
+        get :index, params: { search: search }
       end
 
       context 'empty search' do
@@ -110,7 +110,7 @@ RSpec.describe Admin::EducatorsController, type: :controller do
 
       before do
         educators
-        get :index, filter: filter
+        get :index, params: { filter: filter }
       end
 
       context 'empty filter' do

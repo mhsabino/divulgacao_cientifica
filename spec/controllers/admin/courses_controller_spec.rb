@@ -8,7 +8,10 @@ RSpec.describe Admin::CoursesController, type: :controller do
   let(:permitted_params) { [ :name ] }
   let(:courses)          { create_list(:course, 2, university: university) }
 
-  before { sign_in user }
+  before do
+    sign_in user
+    allow(controller).to receive(:current_university).and_return(university)
+  end
 
   describe '#index' do
     describe '#template' do
@@ -20,6 +23,8 @@ RSpec.describe Admin::CoursesController, type: :controller do
     end
 
     describe '#exposes' do
+      let!(:other_course) { create(:course) }
+
       before { get :index }
 
       it { expect(controller.courses).to match_array(courses) }
@@ -46,6 +51,32 @@ RSpec.describe Admin::CoursesController, type: :controller do
       before { get :index }
 
       include_examples 'admin_pagination'
+    end
+
+    describe '#search' do
+      let!(:searched_course) do
+        create(:course, name: 'searched_name', university: university)
+      end
+
+      let(:search) { '' }
+
+      before do
+        courses
+        get :index, params: { search: search }
+      end
+
+      context 'empty search' do
+        it do
+          expect(controller.courses)
+            .to match_array(courses.push(searched_course))
+        end
+      end
+
+      context 'by name' do
+        let(:search) { 'searched_name' }
+
+        it { expect(controller.courses).to match_array([searched_course]) }
+      end
     end
 
     describe '#permissions' do

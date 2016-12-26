@@ -21,11 +21,15 @@ class Admin::CoursesController < AdministratorController
   # finders
 
   def find_courses
-    Course.all
+    Course.by_university(current_university)
   end
 
   def paginated_courses
-    find_courses.page(params[:page]).per(PER_PAGE)
+    searched_courses.page(params[:page]).per(PER_PAGE)
+  end
+
+  def searched_courses
+    find_courses.search(find_courses, params[:search])
   end
 
   # params
