@@ -1,0 +1,6 @@
+= simple_form_for :search, url: admin_educators_path, method: :get, role: :search do |f|
+  - filter_params = params.fetch(:filter, {}) || []
+
+  = text_field_tag :search, params[:search], placeholder: t('search')
+  = fields_for :filter do |ff|
+    = ff.hidden_field :course, value: filter_params.fetch(:course, '')

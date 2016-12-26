@@ -5,18 +5,10 @@
   = link_to t('.new'), new_admin_educator_path
 
 .col-xs-12
-  = simple_form_for :search, url: admin_educators_path, method: :get, role: :search do |f|
-    - filter_params = params.fetch(:filter, {}) || []
-
-    = text_field_tag :search, params[:search], placeholder: 'Busque aqui...'
-    = fields_for :filter do |ff|
-      = ff.hidden_field :course, value: filter_params.fetch(:course, '')
+  = render 'search'
 
 .col-xs-12
-  = simple_form_for :filter, url: admin_educators_path, method: :get do |f|
-    = hidden_field_tag :search, params[:search]
-
-    = f.input :course, collection: Course.by_university(current_university), label: false, input_html: { data: { filter: '' } }, include_blank: 'Selecione uma opção', selected: params.fetch(:filter, {}).fetch(:course, '')
+  = render 'filter'
 
 .col-xs-12
   = display_admin_responsive_table(Educator, educators, fields)

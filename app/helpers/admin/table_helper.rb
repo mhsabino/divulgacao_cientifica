@@ -46,7 +46,7 @@ module Admin::TableHelper
 
   def table(model, collection, fields)
     table_head = table_head(model, fields)
-    table_body = table_body(collection)
+    table_body = table_body(collection, model, (fields.count + 1))
 
     content_tag(:table, class: 'table table-striped table-hover') do
       table_head.concat(table_body)
@@ -75,7 +75,19 @@ module Admin::TableHelper
 
   # table body
 
-  def table_body(collection)
-    content_tag(:tbody) { render collection }
+  def table_body(collection, model, fields_count)
+    if collection.present?
+      content_tag(:tbody) { render collection }
+    else
+      content_tag(:tbody) { collection_not_found(model, fields_count) }
+    end
+  end
+
+  def collection_not_found(model, fields_count)
+    content_tag(:tr) do
+      content_tag(:td, class: 'alert alert-info text-center', colspan: fields_count) do
+        I18n.t('register_not_found', resource: downcase_model_name(model))
+      end
+    end
   end
 end

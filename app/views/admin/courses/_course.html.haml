@@ -1,6 +1,6 @@
 %tr
   %td
-    = link_to course.name, admin_course_path(course)
+    = link_to highlight(course.name, params[:search]), admin_course_path(course)
 
   %td
     = link_to_remove admin_course_path(course)
