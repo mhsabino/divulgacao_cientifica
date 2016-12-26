@@ -29,4 +29,24 @@ RSpec.describe Course, type: :model do
     end
   end
 
+  describe 'methods' do
+    describe 'by_name' do
+      let(:name)          { 'Name_' }
+      let!(:courses)      { create_list(:course, 2) }
+      let!(:other_course) { create(:course, name: 'other') }
+
+      it { expect(Course.by_name(name)).to match_array(courses) }
+    end
+
+    describe 'by_university' do
+      let(:university)    { create(:university) }
+      let!(:other_course) { create(:course) }
+      let!(:courses)      { create_list(:course, 2, university: university) }
+
+      it do
+        expect(Course.by_university(university.id)).to match_array(courses)
+      end
+    end
+  end
+
 end

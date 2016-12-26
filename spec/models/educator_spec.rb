@@ -43,4 +43,80 @@ RSpec.describe Educator, type: :model do
   describe '#nested attributes' do
     it { is_expected.to accept_nested_attributes_for(:user) }
   end
+
+  describe 'methods' do
+    let(:university) { create(:university) }
+
+    describe 'by_name' do
+      let(:name)            { 'Name_' }
+      let!(:educators)      { create_list(:educator, 2) }
+      let!(:other_educator) { create(:educator, name: 'other') }
+
+      it { expect(Educator.by_name(name)).to match_array(educators) }
+    end
+
+    describe 'by_registration' do
+      let(:registration)    { 'registration_' }
+      let!(:educators)      { create_list(:educator, 2) }
+      let!(:other_educator) { create(:educator, registration: 'other') }
+
+      it do
+        expect(Educator.by_registration(registration))
+          .to match_array(educators)
+      end
+    end
+
+    describe 'by_course' do
+      let(:course)          { create(:course, university: university) }
+      let!(:other_educator) { create(:educator, university: university) }
+      let!(:educators) do
+        create_list(:educator, 2, university: university, course: course)
+      end
+
+      it { expect(Educator.by_course(course.id)).to match_array(educators) }
+    end
+
+    describe 'by_university' do
+      let!(:other_educator) { create(:educator) }
+      let!(:educators)      { create_list(:educator, 2, university: university) }
+
+      it do
+        expect(Educator.by_university(university.id)).to match_array(educators)
+      end
+    end
+
+    describe 'search' do
+      let!(:educators)  { create_list(:educator, 2, university: university) }
+
+      context 'when search_term is present' do
+        let(:search_term) { 'searched' }
+        let(:collection)  { Educator.all }
+        let!(:educator_searched_by_name) do
+          create(:educator, university: university, name: 'searched_name')
+        end
+        let!(:educator_searched_by_registration) do
+          create(:educator, university: university,
+            registration: 'searched_registration')
+        end
+        let(:expected_result) do
+          [educator_searched_by_name, educator_searched_by_registration]
+        end
+
+        it do
+          expect(Educator.search(collection, search_term))
+            .to match_array(expected_result)
+        end
+      end
+
+      context 'when search_term is not present' do
+        let(:search_term) { '' }
+        let(:collection)  { Educator.all }
+
+        it do
+          expect(Educator.search(collection, search_term))
+            .to match_array(educators)
+        end
+      end
+    end
+  end
 end

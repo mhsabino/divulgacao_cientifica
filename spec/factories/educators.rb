@@ -1,9 +1,9 @@
 FactoryGirl.define do
   factory :educator do
-    sequence(:name) { |n| "Name_#{n}" }
+    sequence(:name)         { |n| "Name_#{n}" }
     sequence(:registration) { |n| "registration_#{n}" }
+    course                  { create(:course, university: university) }
     university
-    course
     user
 
     trait :invalid do

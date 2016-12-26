@@ -17,4 +17,14 @@ class Course < ApplicationRecord
   # delegations
 
   delegate :name, to: :university, prefix: true, allow_nil: true
+
+  # methods
+
+  def self.by_name(name)
+    where('name LIKE ?', "%#{name}%")
+  end
+
+  def self.by_university(university_id)
+    where(university_id: university_id)
+  end
 end

@@ -2,9 +2,9 @@ class Admin::EducatorsController < AdministratorController
   include Admin::BaseController
 
   before_action :educator_university, only: :create
-  before_action :educator_course, only: :create
+  before_action :educator_course,     only: :create
+  before_action :educator_role,       only: :create
   before_action :build_educator_user, only: :new
-  before_action :educator_role, only: :create
 
   # constants
 
@@ -29,11 +29,27 @@ class Admin::EducatorsController < AdministratorController
   # finders
 
   def find_educators
-    Educator.all
+    Educator.by_university(current_university)
   end
 
   def paginated_educators
-    find_educators.page(params[:page]).per(PER_PAGE)
+    filtered_educators.page(params[:page]).per(PER_PAGE)
+  end
+
+  def searched_educators
+    find_educators.search(find_educators, params[:search])
+  end
+
+  def filtered_educators
+    result        = searched_educators
+    filter_params = params.fetch(:filter, {})
+
+    return result unless filter_params.present?
+
+    course_filter = filter_params.fetch(:course, '')
+
+    result = result.by_course(course_filter) if course_filter.present?
+    result
   end
 
   # params

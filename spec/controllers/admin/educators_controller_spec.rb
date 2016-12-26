@@ -18,7 +18,10 @@ RSpec.describe Admin::EducatorsController, type: :controller do
       university: university)
   end
 
-  before { sign_in user }
+  before do
+    sign_in user
+    allow(controller).to receive(:current_university).and_return(university)
+  end
 
   describe '#index' do
     describe '#template' do
@@ -30,7 +33,14 @@ RSpec.describe Admin::EducatorsController, type: :controller do
     end
 
     describe '#exposes' do
+      let!(:other_educator) { create(:educator) }
+      let!(:educators) do
+        create_list(:educator, 2, user: create(:user, :educator),
+          university: university)
+      end
+
       before { get :index }
+
       it { expect(controller.educators).to match_array(educators) }
     end
 
@@ -45,7 +55,7 @@ RSpec.describe Admin::EducatorsController, type: :controller do
       include_examples 'admin_stylesheet_helper_method'
     end
 
-    describe 'pagination' do
+    describe '#pagination' do
       let(:per_page)             { Admin::EducatorsController::PER_PAGE }
       let(:controller_resources) { controller.educators }
       let!(:resources) do
@@ -55,6 +65,66 @@ RSpec.describe Admin::EducatorsController, type: :controller do
       before { get :index }
 
       include_examples 'admin_pagination'
+    end
+
+    describe '#search' do
+      let!(:searched_educator) do
+        create(:educator, name: 'searched_name',
+          registration: 'searched_registration', university: university)
+      end
+
+      let(:search) { '' }
+
+      before do
+        educators
+        get :index, search: search
+      end
+
+      context 'empty search' do
+        it do
+          expect(controller.educators)
+            .to match_array(educators.push(searched_educator))
+        end
+      end
+
+      context 'by name' do
+        let(:search) { 'searched_name' }
+
+        it { expect(controller.educators).to match_array([searched_educator]) }
+      end
+
+      context 'by registration' do
+        let(:search) { 'searched_registration' }
+
+        it { expect(controller.educators).to match_array([searched_educator]) }
+      end
+    end
+
+    describe '#filter' do
+      let!(:courses) { create_list(:course, 2, university: university) }
+      let!(:filtered_educator) do
+        create(:educator, university: university, course: courses.first)
+      end
+
+      let(:filter) { { course: '' } }
+
+      before do
+        educators
+        get :index, filter: filter
+      end
+
+      context 'empty filter' do
+        it do
+          expect(controller.educators)
+            .to match_array(educators.push(filtered_educator))
+        end
+      end
+
+      context 'by course' do
+        let(:filter) { { course: "#{courses.first.id}" } }
+
+        it { expect(controller.educators).to match_array([filtered_educator]) }
+      end
     end
 
     describe '#permissions' do
