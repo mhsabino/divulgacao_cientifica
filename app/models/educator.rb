@@ -16,7 +16,7 @@ class Educator < ApplicationRecord
                         :registration,
                         :university,
                         :user,
-                        :course
+                        :course_id
 
   validates_uniqueness_of :registration, scope: :university_id
 

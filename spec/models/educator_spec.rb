@@ -21,7 +21,7 @@ RSpec.describe Educator, type: :model do
     it { is_expected.to validate_presence_of :registration }
     it { is_expected.to validate_presence_of :university }
     it { is_expected.to validate_presence_of :user }
-    it { is_expected.to validate_presence_of :course }
+    it { is_expected.to validate_presence_of :course_id }
     it do
       is_expected.to validate_uniqueness_of(:registration)
         .scoped_to(:university_id)

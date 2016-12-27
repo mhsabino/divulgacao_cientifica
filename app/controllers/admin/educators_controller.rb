@@ -5,7 +5,6 @@ class Admin::EducatorsController < AdministratorController
   # before actions
 
   before_action :educator_university,  only: :create
-  before_action :educator_course,      only: :create
   before_action :educator_role,        only: :create
   before_action :build_educator_user,  only: :new
 
@@ -68,7 +67,7 @@ class Admin::EducatorsController < AdministratorController
   # helper methods
 
   def fields
-    %w(registration name)
+    %w(name registration)
   end
 
   # base controller
@@ -82,11 +81,6 @@ class Admin::EducatorsController < AdministratorController
   end
 
   # setter methods
-
-  # TODO: Remove this after set the course
-  def educator_course
-    educator.course = Course.first
-  end
 
   def build_educator_user
     educator.build_user
