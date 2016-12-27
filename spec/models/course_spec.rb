@@ -76,6 +76,14 @@ RSpec.describe Course, type: :model do
         end
       end
     end
+
+    describe 'order_by_name' do
+      let!(:first_course)   { create(:course, name: 'B_name') }
+      let!(:second_course)  { create(:course, name: 'A_name') }
+      let(:expected_result) { [second_course, first_course] }
+
+      it { expect(Course.order_by_name).to eq(expected_result) }
+    end
   end
 
 end

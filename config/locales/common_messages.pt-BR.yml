@@ -1,10 +1,12 @@
 pt-BR:
   actions: Ações
   destroy_confirmation: Deseja remover o registro?
+  homepage: Página Inicial
   register_not_found: 'Nenhum(a) %{resource} encontrado(a)'
   search: Busque aqui...
   select_option: Selecione uma opção
   title: DivulgacaoCientifica
   tooltip_remove_action: Remover registro
   tooltip_edit_action: Editar registro
+
 

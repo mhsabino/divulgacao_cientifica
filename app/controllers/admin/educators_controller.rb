@@ -1,6 +1,4 @@
 class Admin::EducatorsController < AdministratorController
-  add_breadcrumb Educator.model_name.human(count: 2), :admin_educators_path
-
   include Admin::BaseController
   include Admin::BreadcrumbController
 
@@ -38,7 +36,7 @@ class Admin::EducatorsController < AdministratorController
   end
 
   def paginated_educators
-    filtered_educators.page(params[:page]).per(PER_PAGE)
+    ordered_educators.page(params[:page]).per(PER_PAGE)
   end
 
   def searched_educators
@@ -55,6 +53,10 @@ class Admin::EducatorsController < AdministratorController
 
     result = result.by_course(course_filter) if course_filter.present?
     result
+  end
+
+  def ordered_educators
+    filtered_educators.order_by_name
   end
 
   # params

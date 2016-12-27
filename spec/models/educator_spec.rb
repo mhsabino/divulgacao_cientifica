@@ -118,5 +118,13 @@ RSpec.describe Educator, type: :model do
         end
       end
     end
+
+    describe 'order_by_name' do
+      let!(:first_educator)  { create(:educator, name: 'B_name') }
+      let!(:second_educator) { create(:educator, name: 'A_name') }
+      let(:expected_result)  { [second_educator, first_educator] }
+
+      it { expect(Educator.order_by_name).to eq(expected_result) }
+    end
   end
 end

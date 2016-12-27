@@ -1,6 +1,4 @@
 class Admin::CoursesController < AdministratorController
-  add_breadcrumb Course.model_name.human(count: 2), :admin_courses_path
-
   include Admin::BaseController
   include Admin::BreadcrumbController
 
@@ -28,11 +26,15 @@ class Admin::CoursesController < AdministratorController
   end
 
   def paginated_courses
-    searched_courses.page(params[:page]).per(PER_PAGE)
+    ordered_courses.page(params[:page]).per(PER_PAGE)
   end
 
   def searched_courses
     find_courses.search(find_courses, params[:search])
+  end
+
+  def ordered_courses
+    searched_courses.order_by_name
   end
 
   # params

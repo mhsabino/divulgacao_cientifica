@@ -36,4 +36,10 @@ class Course < ApplicationRecord
   def self.by_university(university_id)
     where(university_id: university_id)
   end
+
+  # ordering
+
+  def self.order_by_name
+    order(:name)
+  end
 end

@@ -53,20 +53,14 @@ RSpec.describe Admin::EducatorsController, type: :controller do
       include_examples 'admin_fields_helper_method'
       include_examples 'admin_javascript_helper_method'
       include_examples 'admin_stylesheet_helper_method'
-
-      describe 'breadcrumb' do
-        let(:resource) { Educator.model_name.human(count: 2) }
-        let(:path)     { :admin_educators_path }
-
-        include_examples 'admin_breadcrumb_helper_method'
-      end
     end
 
     describe '#pagination' do
       let(:per_page)             { Admin::EducatorsController::PER_PAGE }
       let(:controller_resources) { controller.educators }
       let!(:resources) do
-        create_list(:educator, 11, university: university)
+        create_list(:educator, (per_page + 1), university: university)
+          .sort! { |a,b| a.name <=> b.name }
       end
 
       before { get :index }

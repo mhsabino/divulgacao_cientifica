@@ -59,4 +59,10 @@ class Educator < ApplicationRecord
   def self.by_course(course_id)
     where(course_id: course_id)
   end
+
+  # ordering
+
+  def self.order_by_name
+    order(:name)
+  end
 end
