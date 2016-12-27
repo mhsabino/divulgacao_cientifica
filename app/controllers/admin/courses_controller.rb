@@ -1,5 +1,8 @@
 class Admin::CoursesController < AdministratorController
+  add_breadcrumb Course.model_name.human(count: 2), :admin_courses_path
+
   include Admin::BaseController
+  include Admin::BreadcrumbController
 
   before_action :course_university, only: :create
 

@@ -1,10 +1,15 @@
 class Admin::EducatorsController < AdministratorController
-  include Admin::BaseController
+  add_breadcrumb Educator.model_name.human(count: 2), :admin_educators_path
 
-  before_action :educator_university, only: :create
-  before_action :educator_course,     only: :create
-  before_action :educator_role,       only: :create
-  before_action :build_educator_user, only: :new
+  include Admin::BaseController
+  include Admin::BreadcrumbController
+
+  # before actions
+
+  before_action :educator_university,  only: :create
+  before_action :educator_course,      only: :create
+  before_action :educator_role,        only: :create
+  before_action :build_educator_user,  only: :new
 
   # constants
 

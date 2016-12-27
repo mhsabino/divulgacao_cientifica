@@ -39,6 +39,13 @@ RSpec.describe Admin::CoursesController, type: :controller do
       include_examples 'admin_fields_helper_method'
       include_examples 'admin_javascript_helper_method'
       include_examples 'admin_stylesheet_helper_method'
+
+      describe 'breadcrumb' do
+        let(:resource) { Course.model_name.human(count: 2) }
+        let(:path)     { :admin_courses_path }
+
+        include_examples 'admin_breadcrumb_helper_method'
+      end
     end
 
     describe 'pagination' do

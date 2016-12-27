@@ -1,0 +1,4 @@
+pt-BR:
+  breadcrumbs:
+    new: 'Criar %{resource}'
+    edit: 'Editar %{resource}'

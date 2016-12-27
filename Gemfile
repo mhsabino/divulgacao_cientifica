@@ -18,6 +18,7 @@ gem 'devise'
 gem 'font-awesome-rails', '~> 4.7'
 gem 'simple_form'
 gem 'kaminari'
+gem 'breadcrumbs_on_rails'
 
 group :development, :test do
   gem 'byebug', platform: :mri
@@ -33,9 +34,9 @@ group :development do
   gem 'listen', '~> 3.0.5'
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
-  gem "erb2haml"
+  gem 'erb2haml'
   gem 'rubocop', '~> 0.42.0', require: false
-  gem "haml-rails", "~> 0.9"
+  gem 'haml-rails', '~> 0.9'
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
