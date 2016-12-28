@@ -71,7 +71,32 @@ RSpec.describe SchoolClass, type: :model do
         create_list(:school_class, 2, course: course)
       end
 
-      it { expect(described_class.by_course(course.id)).to match_array(school_classes) }
+      it do
+        expect(described_class.by_course(course.id))
+          .to match_array(school_classes)
+      end
+    end
+
+    describe 'by_year' do
+      let!(:other_school_class) { create(:school_class, year: '2015') }
+      let!(:school_classes) do
+        create_list(:school_class, 2, course: course, year: '2017')
+      end
+
+      it do
+        expect(described_class.by_year('2017')).to match_array(school_classes)
+      end
+    end
+
+    describe 'by_period' do
+      let!(:other_school_class) { create(:school_class, period: :nightly) }
+      let!(:school_classes) do
+        create_list(:school_class, 2, course: course, period: :integral)
+      end
+
+      it do
+        expect(described_class.by_period('1')).to match_array(school_classes)
+      end
     end
 
     describe 'search' do

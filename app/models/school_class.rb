@@ -54,6 +54,14 @@ class SchoolClass < ApplicationRecord
     where(course_id: course_id)
   end
 
+  def self.by_year(year)
+    where(year: year)
+  end
+
+  def self.by_period(period)
+    where(period: period)
+  end
+
   # ordering
 
   def self.order_by_name

@@ -103,10 +103,11 @@ RSpec.describe Admin::SchoolClassesController, type: :controller do
     describe '#filter' do
       let!(:courses) { create_list(:course, 2, university: university) }
       let!(:filtered_school_class) do
-        create(:school_class, course: courses.first, university: university)
+        create(:school_class, course: courses.first, university: university,
+          period: :nightly, vacancies: 10, year: '2015')
       end
 
-      let(:filter) { { course: '' } }
+      let(:filter) { { course: '', year: '', vacancies: '', period: '' } }
 
       before do
         school_classes
@@ -122,6 +123,24 @@ RSpec.describe Admin::SchoolClassesController, type: :controller do
 
       context 'by course' do
         let(:filter) { { course: "#{courses.first.id}" } }
+
+        it do
+          expect(controller.school_classes)
+            .to match_array([filtered_school_class])
+        end
+      end
+
+      context 'by year' do
+        let(:filter) { { year: '2015' } }
+
+        it do
+          expect(controller.school_classes)
+            .to match_array([filtered_school_class])
+        end
+      end
+
+      context 'by period' do
+        let(:filter) { { period: '2' } }
 
         it do
           expect(controller.school_classes)

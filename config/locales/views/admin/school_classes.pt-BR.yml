@@ -10,6 +10,11 @@ pt-BR:
       index:
         hello_admin: Olá administrador!
         new: Nova turma
+      filter:
+        filters:
+          by_course: Filtrar por curso
+          by_period: Filtrar por período
+          by_year: Filtrar por ano
       update:
         error: Houve um erro ao atualizar o registro
         success: Registro atualizado com sucesso!

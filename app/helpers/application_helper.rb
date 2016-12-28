@@ -13,6 +13,10 @@ module ApplicationHelper
     message.html_safe
   end
 
+  def current_year
+    Date.today.year
+  end
+
   private
 
   def flash_style(flash_type)

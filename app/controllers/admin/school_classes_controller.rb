@@ -44,9 +44,15 @@ class Admin::SchoolClassesController < AdministratorController
   end
 
   def filtered_school_classes
-    course_param = params.fetch(:filter, {}).fetch(:course, '')
-    result       = searched_school_classes
-    result       = result.by_course(course_param) if course_param.present?
+    filter_params   = params.fetch(:filter, {})
+    course_param    = filter_params.fetch(:course, '')
+    year_param      = filter_params.fetch(:year, '')
+    vacancies_param = filter_params.fetch(:vacancies, '')
+    period_param    = filter_params.fetch(:period, '')
+    result          = searched_school_classes
+    result          = result.by_course(course_param)       if course_param.present?
+    result          = result.by_year(year_param)           if year_param.present?
+    result          = result.by_period(period_param)       if period_param.present?
     result
   end
 

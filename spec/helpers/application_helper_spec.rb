@@ -23,6 +23,10 @@ RSpec.describe ApplicationHelper, type: :helper do
     end
   end
 
+  describe 'current_year' do
+    it { expect(helper.current_year).to eq(DateTime.now.year) }
+  end
+
   describe 'flash_message' do
     context 'when notice message' do
       let(:notice_message) { 'message' }
@@ -63,7 +67,6 @@ RSpec.describe ApplicationHelper, type: :helper do
 
       it { expect(helper.flash_message).to eq(flash_message) }
     end
-
   end
 
 end

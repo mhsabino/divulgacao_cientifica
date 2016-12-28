@@ -1,4 +1,13 @@
+- course_param = params.fetch(:filter, {}).fetch(:course, '')
+- year_param   = params.fetch(:filter, {}).fetch(:year, '')
+- period_param = params.fetch(:filter, {}).fetch(:period, '')
+
 = simple_form_for :filter, url: admin_school_classes_path, method: :get do |f|
   = hidden_field_tag :search, params[:search]
 
-  = f.input :course, collection: courses_by_university(current_university), label: false, input_html: { data: { filter: '' } }, include_blank: t('select_option'), selected: params.fetch(:filter, {}).fetch(:course, '')
+  .col-xs-4
+    = f.input :course, collection: courses_by_university(current_university), label: false, input_html: { data: { filter: '' } }, include_blank: t('.filters.by_course'), selected: course_param
+  .col-xs-4
+    = f.input :year, collection: school_classes_years(current_university), label: false, input_html: { data: { filter: '' } }, include_blank: t('.filters.by_year'), selected: (year_param.present? ? year_param : current_year)
+  .col-xs-4
+    = f.input :period, collection: SchoolClass.localized_periods, label: false, input_html: { data: { filter: '' } }, include_blank: t('.filters.by_period'), selected: period_param

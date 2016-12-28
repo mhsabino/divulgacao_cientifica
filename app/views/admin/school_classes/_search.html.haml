@@ -4,3 +4,5 @@
   = text_field_tag :search, params[:search], placeholder: t('search')
   = fields_for :filter do |ff|
     = ff.hidden_field :course, value: filter_params.fetch(:course, '')
+    = ff.hidden_field :year, value: filter_params.fetch(:year, '')
+    = ff.hidden_field :period, value: filter_params.fetch(:period, '')
