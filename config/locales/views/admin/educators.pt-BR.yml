@@ -10,6 +10,9 @@ pt-BR:
       index:
         hello_admin: Olá administrador!
         new: Novo educador
+      filter:
+        filters:
+          by_course: Filtrar por curso
       update:
         error: Houve um erro ao atualizar o registro
         success: Registro atualizado com sucesso!
