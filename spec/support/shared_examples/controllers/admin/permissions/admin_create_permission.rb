@@ -1,7 +1,7 @@
 RSpec.shared_examples "admin_create_permission" do
   let(:role)             { :secretary }
   let(:other_user)       { create(:user, role: role) }
-  let(:model_pluralized) { model.to_s.downcase.pluralize }
+  let(:model_pluralized) { model.to_s.underscore.downcase.pluralize }
   let(:index_path) do
     url_for(controller: "admin/#{model_pluralized}", only_path: true)
   end

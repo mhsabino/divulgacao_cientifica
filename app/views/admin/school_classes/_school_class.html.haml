@@ -1,0 +1,19 @@
+%tr
+  %td
+    = link_to highlight(school_class.name, params[:search]), admin_school_class_path(school_class)
+
+  %td
+    = link_to school_class.course_name, admin_school_class_path(school_class)
+
+  %td
+    = link_to school_class.year, admin_school_class_path(school_class)
+
+  %td
+    = link_to school_class.vacancies, admin_school_class_path(school_class)
+
+  %td
+    = link_to school_class.period_str, admin_school_class_path(school_class)
+
+  %td
+    = link_to_remove admin_school_class_path(school_class)
+    = link_to_edit edit_admin_school_class_path(school_class)

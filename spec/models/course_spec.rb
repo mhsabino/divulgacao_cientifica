@@ -37,7 +37,7 @@ RSpec.describe Course, type: :model do
       let!(:courses)      { create_list(:course, 2) }
       let!(:other_course) { create(:course, name: 'other') }
 
-      it { expect(Course.by_name(name)).to match_array(courses) }
+      it { expect(described_class.by_name(name)).to match_array(courses) }
     end
 
     describe 'by_university' do
@@ -45,7 +45,7 @@ RSpec.describe Course, type: :model do
       let!(:courses)      { create_list(:course, 2, university: university) }
 
       it do
-        expect(Course.by_university(university.id)).to match_array(courses)
+        expect(described_class.by_university(university.id)).to match_array(courses)
       end
     end
 
@@ -54,24 +54,24 @@ RSpec.describe Course, type: :model do
 
       context 'when search_term is present' do
         let(:search_term) { 'searched' }
-        let(:collection)  { Course.all }
+        let(:collection)  { described_class.all }
         let!(:course_searched_by_name) do
           create(:course, university: university, name: 'searched_name')
         end
         let(:expected_result) { [course_searched_by_name] }
 
         it do
-          expect(Course.search(collection, search_term))
+          expect(described_class.search(collection, search_term))
             .to match_array(expected_result)
         end
       end
 
       context 'when search_term is not present' do
         let(:search_term) { '' }
-        let(:collection)  { Course.all }
+        let(:collection)  { described_class.all }
 
         it do
-          expect(Course.search(collection, search_term))
+          expect(described_class.search(collection, search_term))
             .to match_array(courses)
         end
       end
@@ -82,7 +82,7 @@ RSpec.describe Course, type: :model do
       let!(:second_course)  { create(:course, name: 'A_name') }
       let(:expected_result) { [second_course, first_course] }
 
-      it { expect(Course.order_by_name).to eq(expected_result) }
+      it { expect(described_class.order_by_name).to eq(expected_result) }
     end
   end
 

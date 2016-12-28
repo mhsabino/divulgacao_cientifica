@@ -4,7 +4,7 @@ RSpec.shared_examples "admin_update_permission" do
   let(:object_attributes) { valid_attributes.except('id', 'updated_at') }
   let(:object_id)         { valid_params[:params][:id] }
   let(:object)            { model.find(object_id) }
-  let(:model_pluralized)  { model.to_s.downcase.pluralize }
+  let(:model_pluralized)  { model.to_s.underscore.downcase.pluralize }
   let(:show_path) do
     url_for(controller: "admin/#{model_pluralized}",
         id: object.id, action: 'show', only_path: true)

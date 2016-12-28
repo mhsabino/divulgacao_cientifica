@@ -1,0 +1,29 @@
+pt-BR:
+  activerecord:
+    models:
+      school_class:
+        one: Turma
+        other: Turmas
+
+    attributes:
+      school_class:
+        course_id: Curso
+        course_name: Curso
+        name: Nome
+        period: Período
+        vacancies: Vagas
+        year: Ano
+      school_class/period:
+        integral: Integral
+        nightly: Noturno
+
+    errors:
+      models:
+        school_class:
+          attributes:
+            course_id:
+              blank: '%{attribute} precisa ser informado'
+            name:
+              blank: '%{attribute} precisa ser informado'
+            registration:
+              blank: '%{attribute} precisa ser informada'

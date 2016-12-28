@@ -8,5 +8,6 @@ Rails.application.routes.draw do
     resources :login, only: :index
     resources :educators
     resources :courses
+    resources :school_classes
   end
 end

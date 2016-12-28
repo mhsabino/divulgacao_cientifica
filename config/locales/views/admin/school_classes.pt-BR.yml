@@ -1,0 +1,15 @@
+pt-BR:
+  admin:
+    school_classes:
+      create:
+        error: Houve um erro ao criar o registro
+        success: Registro criado com sucesso!
+      destroy:
+        error: Houve um erro ao remover o registro
+        success: Registro removido com sucesso!
+      index:
+        hello_admin: Olá administrador!
+        new: Nova turma
+      update:
+        error: Houve um erro ao atualizar o registro
+        success: Registro atualizado com sucesso!

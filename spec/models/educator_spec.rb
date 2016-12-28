@@ -52,7 +52,7 @@ RSpec.describe Educator, type: :model do
       let!(:educators)      { create_list(:educator, 2) }
       let!(:other_educator) { create(:educator, name: 'other') }
 
-      it { expect(Educator.by_name(name)).to match_array(educators) }
+      it { expect(described_class.by_name(name)).to match_array(educators) }
     end
 
     describe 'by_registration' do
@@ -61,7 +61,7 @@ RSpec.describe Educator, type: :model do
       let!(:other_educator) { create(:educator, registration: 'other') }
 
       it do
-        expect(Educator.by_registration(registration))
+        expect(described_class.by_registration(registration))
           .to match_array(educators)
       end
     end
@@ -73,7 +73,7 @@ RSpec.describe Educator, type: :model do
         create_list(:educator, 2, university: university, course: course)
       end
 
-      it { expect(Educator.by_course(course.id)).to match_array(educators) }
+      it { expect(described_class.by_course(course.id)).to match_array(educators) }
     end
 
     describe 'by_university' do
@@ -81,7 +81,7 @@ RSpec.describe Educator, type: :model do
       let!(:educators)      { create_list(:educator, 2, university: university) }
 
       it do
-        expect(Educator.by_university(university.id)).to match_array(educators)
+        expect(described_class.by_university(university.id)).to match_array(educators)
       end
     end
 
@@ -90,7 +90,7 @@ RSpec.describe Educator, type: :model do
 
       context 'when search_term is present' do
         let(:search_term) { 'searched' }
-        let(:collection)  { Educator.all }
+        let(:collection)  { described_class.all }
         let!(:educator_searched_by_name) do
           create(:educator, university: university, name: 'searched_name')
         end
@@ -103,17 +103,17 @@ RSpec.describe Educator, type: :model do
         end
 
         it do
-          expect(Educator.search(collection, search_term))
+          expect(described_class.search(collection, search_term))
             .to match_array(expected_result)
         end
       end
 
       context 'when search_term is not present' do
         let(:search_term) { '' }
-        let(:collection)  { Educator.all }
+        let(:collection)  { described_class.all }
 
         it do
-          expect(Educator.search(collection, search_term))
+          expect(described_class.search(collection, search_term))
             .to match_array(educators)
         end
       end
@@ -124,7 +124,7 @@ RSpec.describe Educator, type: :model do
       let!(:second_educator) { create(:educator, name: 'A_name') }
       let(:expected_result)  { [second_educator, first_educator] }
 
-      it { expect(Educator.order_by_name).to eq(expected_result) }
+      it { expect(described_class.order_by_name).to eq(expected_result) }
     end
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160928020119) do
+ActiveRecord::Schema.define(version: 20161228004413) do
 
   create_table "classrooms", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "discipline_id"
@@ -62,9 +62,11 @@ ActiveRecord::Schema.define(version: 20160928020119) do
     t.string   "year"
     t.integer  "period"
     t.integer  "vacancies"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.integer  "university_id"
     t.index ["course_id"], name: "index_school_classes_on_course_id", using: :btree
+    t.index ["university_id"], name: "index_school_classes_on_university_id", using: :btree
   end
 
   create_table "scientific_researches", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -125,6 +127,7 @@ ActiveRecord::Schema.define(version: 20160928020119) do
   add_foreign_key "educators", "universities"
   add_foreign_key "educators", "users"
   add_foreign_key "school_classes", "courses"
+  add_foreign_key "school_classes", "universities"
   add_foreign_key "scientific_researches", "educators"
   add_foreign_key "scientific_researches", "universities"
   add_foreign_key "students", "school_classes"

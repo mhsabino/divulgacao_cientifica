@@ -19,6 +19,8 @@ module Admin::BaseController
       else
         render_new_with_error
       end
+
+      resource.errors.inspect
     end
 
     def update
