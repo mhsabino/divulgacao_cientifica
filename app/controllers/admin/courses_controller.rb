@@ -30,7 +30,7 @@ class Admin::CoursesController < AdministratorController
   end
 
   def searched_courses
-    find_courses.search(find_courses, params[:search])
+    find_courses.search(params[:search])
   end
 
   def ordered_courses

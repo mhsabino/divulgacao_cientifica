@@ -39,9 +39,9 @@ class SchoolClass < ApplicationRecord
     where('name LIKE ?', "%#{name}%")
   end
 
-  def self.search(collection, search_term)
-    return collection unless search_term
-    collection.by_name(search_term)
+  def self.search(search_term)
+    return all unless search_term
+    by_name(search_term)
   end
 
   ## filter methods

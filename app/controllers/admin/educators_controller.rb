@@ -39,18 +39,13 @@ class Admin::EducatorsController < AdministratorController
   end
 
   def searched_educators
-    find_educators.search(find_educators, params[:search])
+    find_educators.search(params[:search])
   end
 
   def filtered_educators
-    result        = searched_educators
-    filter_params = params.fetch(:filter, {})
-
-    return result unless filter_params.present?
-
-    course_filter = filter_params.fetch(:course, '')
-
-    result = result.by_course(course_filter) if course_filter.present?
+    course_param = params.fetch(:filter, {}).fetch(:course, '')
+    result       = searched_educators
+    result       = result.by_course(course_param) if course_param.present?
     result
   end
 

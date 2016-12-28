@@ -61,7 +61,7 @@ RSpec.describe Course, type: :model do
         let(:expected_result) { [course_searched_by_name] }
 
         it do
-          expect(described_class.search(collection, search_term))
+          expect(collection.search(search_term))
             .to match_array(expected_result)
         end
       end
@@ -71,7 +71,7 @@ RSpec.describe Course, type: :model do
         let(:collection)  { described_class.all }
 
         it do
-          expect(described_class.search(collection, search_term))
+          expect(collection.search(search_term))
             .to match_array(courses)
         end
       end

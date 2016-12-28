@@ -40,18 +40,13 @@ class Admin::SchoolClassesController < AdministratorController
   end
 
   def searched_school_classes
-    find_school_classes.search(find_school_classes, params[:search])
+    find_school_classes.search(params[:search])
   end
 
   def filtered_school_classes
-    result        = searched_school_classes
-    filter_params = params.fetch(:filter, {})
-
-    return result unless filter_params.present?
-
-    course_filter = filter_params.fetch(:course, '')
-
-    result = result.by_course(course_filter) if course_filter.present?
+    course_param = params.fetch(:filter, {}).fetch(:course, '')
+    result       = searched_school_classes
+    result       = result.by_course(course_param) if course_param.present?
     result
   end
 
