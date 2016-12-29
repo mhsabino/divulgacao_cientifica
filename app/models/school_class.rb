@@ -41,22 +41,17 @@ class SchoolClass < ApplicationRecord
 
   # methods
 
-  def self.search(search_term)
-    return all unless search_term
-    by_name(search_term)
-  end
-
-  # ordering
-
-  def self.order_by_name
-    order(:name)
-  end
-
   def period_str
     SchoolClass.human_attribute_name("period.#{period}")
   end
 
   def self.localized_periods
     periods.keys.map { |w| [human_attribute_name("period.#{w}"), w] }
+  end
+
+  ## ordering
+
+  def self.order_by_name
+    order(:name)
   end
 end

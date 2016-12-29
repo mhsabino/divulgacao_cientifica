@@ -43,10 +43,8 @@ class Admin::EducatorsController < AdministratorController
   end
 
   def filtered_educators
-    course_param = params.fetch(:filter, {}).fetch(:course, '')
-    result       = searched_educators
-    result       = result.by_course(course_param) if course_param.present?
-    result
+    filter_params = params.fetch(:filter, {})
+    Educator.filter_by(searched_educators, filter_params)
   end
 
   def ordered_educators

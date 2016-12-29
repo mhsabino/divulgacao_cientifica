@@ -40,12 +40,7 @@ class Educator < ApplicationRecord
 
   # methods
 
-  def self.search(search_term)
-    return all unless search_term
-    by_name(search_term).or(by_registration(search_term))
-  end
-
-  # ordering
+  ## ordering
 
   def self.order_by_name
     order(:name)
