@@ -1,5 +1,13 @@
 class Educator < ApplicationRecord
 
+  # constants
+
+  FILTER_METHODS = [:university, :course]
+  SEARCH_METHODS = [:name, :registration]
+
+  include Filterable
+  include Searchable
+
   # associations
 
   belongs_to :university
@@ -32,29 +40,9 @@ class Educator < ApplicationRecord
 
   # methods
 
-  ## search methods
-
-  def self.by_name(name)
-    where('name LIKE ?', "%#{name}%")
-  end
-
-  def self.by_registration(registration)
-    where('registration LIKE ?', "%#{registration}%")
-  end
-
   def self.search(search_term)
     return all unless search_term
     by_name(search_term).or(by_registration(search_term))
-  end
-
-  ## filter methods
-
-  def self.by_university(university_id)
-    where(university_id: university_id)
-  end
-
-  def self.by_course(course_id)
-    where(course_id: course_id)
   end
 
   # ordering
@@ -62,4 +50,5 @@ class Educator < ApplicationRecord
   def self.order_by_name
     order(:name)
   end
+
 end

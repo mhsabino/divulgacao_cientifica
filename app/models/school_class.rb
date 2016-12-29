@@ -1,5 +1,13 @@
 class SchoolClass < ApplicationRecord
 
+  # constants
+
+  FILTER_METHODS = [:university, :course, :year, :period]
+  SEARCH_METHODS = [:name]
+
+  include Filterable
+  include Searchable
+
   # attributes
 
   enum period: { integral: 1, nightly: 2 }
@@ -33,33 +41,9 @@ class SchoolClass < ApplicationRecord
 
   # methods
 
-  ## search methods
-
-  def self.by_name(name)
-    where('name LIKE ?', "%#{name}%")
-  end
-
   def self.search(search_term)
     return all unless search_term
     by_name(search_term)
-  end
-
-  ## filter methods
-
-  def self.by_university(university_id)
-    where(university_id: university_id)
-  end
-
-  def self.by_course(course_id)
-    where(course_id: course_id)
-  end
-
-  def self.by_year(year)
-    where(year: year)
-  end
-
-  def self.by_period(period)
-    where(period: period)
   end
 
   # ordering

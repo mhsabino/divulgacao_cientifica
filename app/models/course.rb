@@ -1,5 +1,13 @@
 class Course < ApplicationRecord
 
+  # constants
+
+  FILTER_METHODS = [:university]
+  SEARCH_METHODS = [:name]
+
+  include Filterable
+  include Searchable
+
   # associations
 
   belongs_to :university
@@ -20,21 +28,9 @@ class Course < ApplicationRecord
 
   # methods
 
-  ## search methods
-
-  def self.by_name(name)
-    where('name LIKE ?', "%#{name}%")
-  end
-
   def self.search(search_term)
     return all unless search_term
     by_name(search_term)
-  end
-
-  ## filter methods
-
-  def self.by_university(university_id)
-    where(university_id: university_id)
   end
 
   # ordering
