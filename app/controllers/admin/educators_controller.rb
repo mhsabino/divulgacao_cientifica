@@ -60,7 +60,7 @@ class Admin::EducatorsController < AdministratorController
   # helper methods
 
   def fields
-    %w(name registration)
+    %w(name registration course_name)
   end
 
   # base controller

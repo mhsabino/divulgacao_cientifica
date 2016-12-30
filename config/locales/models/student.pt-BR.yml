@@ -8,6 +8,7 @@ pt-BR:
     attributes:
       student:
         school_class_id: Turma
+        school_class_name: Turma
         name: Nome
         registration: Matrícula
 

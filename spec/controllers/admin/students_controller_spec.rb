@@ -45,7 +45,7 @@ RSpec.describe Admin::StudentsController, type: :controller do
     end
 
     describe '#helper_methods' do
-      let(:fields) { ['name', 'registration'] }
+      let(:fields) { ['name', 'registration', 'school_class_name'] }
       let(:path)   { 'views/admin/students/index' }
 
       before { get :index }

@@ -8,6 +8,7 @@ pt-BR:
     attributes:
       educator:
         course_id: Curso
+        course_name: Curso
         name: Nome
         registration: Matrícula
 

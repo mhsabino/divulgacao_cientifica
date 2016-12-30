@@ -6,5 +6,8 @@
     = link_to highlight(educator.registration, params[:search]), admin_educator_path(educator)
 
   %td
+    = link_to educator.course_name, admin_educator_path(educator)
+
+  %td
     = link_to_remove admin_educator_path(educator)
     = link_to_edit edit_admin_educator_path(educator)
