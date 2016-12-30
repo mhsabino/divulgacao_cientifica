@@ -44,8 +44,7 @@ class Admin::SchoolClassesController < AdministratorController
   end
 
   def filtered_school_classes
-    filter_params = params.fetch(:filter, {})
-    SchoolClass.filter_by(searched_school_classes, filter_params)
+    SchoolClass.filter_by(searched_school_classes, custom_filter_params)
   end
 
   def ordered_school_classes
@@ -78,5 +77,13 @@ class Admin::SchoolClassesController < AdministratorController
 
   def school_class_university
     school_class.university = current_university
+  end
+
+  def custom_filter_params
+    filter_params = params.fetch(:filter, {})
+    year_param    = filter_params.fetch(:year, '')
+
+    return filter_params if year_param.present?
+    filter_params.merge!( { year: DateTime.now.year } )
   end
 end
