@@ -1,6 +1,12 @@
 @import "font-awesome";
 @import "base";
+@import "admin/sidemenu";
 
 .table-responsive {
   overflow: visible;
+}
+
+#container {
+  margin-left: 200px;
+  padding: 5px 5px 5px 16px;
 }

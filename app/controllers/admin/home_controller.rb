@@ -1,4 +1,4 @@
-class Admin::HomeController < ApplicationController
+class Admin::HomeController < AdministratorController
 
   before_action :authenticate_user!
   before_action :redirect_unauthorized_user

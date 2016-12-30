@@ -1,0 +1,36 @@
+body {
+  margin: 0;
+}
+
+#sidemenu {
+  height: 100%;
+  position: fixed;
+  width: 200px;
+
+  background-color: #000;
+
+  ul {
+    margin-top: 30px;
+    padding: 0px;
+
+    list-style: none;
+
+    li {
+      a {
+        display: inherit;
+        padding: 5px;
+
+        color: #999999;
+        font-size: 1.5rem;
+        text-decoration: none;
+      }
+
+      a:hover, a:active, .active_link {
+        color: #FFFFFF;
+        background-color: rgba(255,255,255,0.2);
+      }
+    }
+  }
+}
+
+

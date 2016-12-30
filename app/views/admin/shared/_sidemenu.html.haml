@@ -1,0 +1,17 @@
+#sidemenu
+  %ul
+    %li
+      = link_to 'Cursos', admin_courses_path,
+        class: ('active_link' if controller_name == 'courses')
+    %li
+      = link_to 'Disciplinas', admin_disciplines_path,
+        class: ('active_link' if controller_name == 'disciplines')
+    %li
+      = link_to 'Educadores', admin_educators_path,
+        class: ('active_link' if controller_name == 'educators')
+    %li
+      = link_to 'Estudantes', admin_students_path,
+        class: ('active_link' if controller_name == 'students')
+    %li
+      = link_to 'Turmas', admin_school_classes_path,
+        class: ('active_link' if controller_name == 'school_classes')
