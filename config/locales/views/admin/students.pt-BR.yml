@@ -1,0 +1,18 @@
+pt-BR:
+  admin:
+    students:
+      create:
+        error: Houve um erro ao criar o registro
+        success: Registro criado com sucesso!
+      destroy:
+        error: Houve um erro ao remover o registro
+        success: Registro removido com sucesso!
+      index:
+        hello_admin: Olá administrador!
+        new: Novo estudante
+      filter:
+        filters:
+          by_school_class: Filtrar por turma
+      update:
+        error: Houve um erro ao atualizar o registro
+        success: Registro atualizado com sucesso!

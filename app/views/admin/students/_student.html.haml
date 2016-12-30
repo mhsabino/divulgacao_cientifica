@@ -1,0 +1,10 @@
+%tr
+  %td
+    = link_to highlight(student.name, params[:search]), admin_student_path(student)
+
+  %td
+    = link_to highlight(student.registration, params[:search]), admin_student_path(student)
+
+  %td
+    = link_to_remove admin_student_path(student)
+    = link_to_edit edit_admin_student_path(student)

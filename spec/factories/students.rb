@@ -1,16 +1,14 @@
 FactoryGirl.define do
   factory :student do
-    sequence(:name) { |n| "student_name_#{n}" }
-    sequence(:registration) { |n| "registration_#{n}@email.com" }
-    sequence(:email) { |n| "student_email_#{n}@email.com" }
+    sequence(:name)         { |n| "student_name_#{n}" }
+    sequence(:registration) { |n| "registration_#{n}" }
     university
-    school_class
+    school_class            { create(:school_class, university: university) }
     user
 
     trait :invalid do
       name nil
       registration nil
-      email nil
       school_class nil
       university nil
       user nil
