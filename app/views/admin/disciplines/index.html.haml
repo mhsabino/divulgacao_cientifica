@@ -1,0 +1,20 @@
+.col-xs-12
+  = render 'admin/shared/breadcrumb'
+
+.col-xs-12
+  = flash_message
+
+.col-xs-12
+  = link_to t('.new'), new_admin_discipline_path
+
+.col-xs-12
+  = render 'search'
+
+.col-xs-12
+  = render 'filter'
+
+.col-xs-12
+  = display_admin_responsive_table(Discipline, disciplines, fields)
+
+.col-xs-12
+  = paginate disciplines

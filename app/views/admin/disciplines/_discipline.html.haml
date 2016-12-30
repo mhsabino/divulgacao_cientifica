@@ -1,0 +1,10 @@
+%tr
+  %td
+    = link_to highlight(discipline.name, params[:search]), admin_discipline_path(discipline)
+
+  %td
+    = link_to discipline.course_name, admin_discipline_path(discipline)
+
+  %td
+    = link_to_remove admin_discipline_path(discipline)
+    = link_to_edit edit_admin_discipline_path(discipline)

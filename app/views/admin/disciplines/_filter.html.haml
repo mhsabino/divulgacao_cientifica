@@ -1,0 +1,4 @@
+= simple_form_for :filter, url: admin_disciplines_path, method: :get do |f|
+  = hidden_field_tag :search, params[:search]
+
+  = filter_by(f, :course, courses_by_university(current_university), t('.filters.by_course'))

@@ -1,5 +1,15 @@
 class Discipline < ApplicationRecord
 
+  # constants
+
+  FILTER_METHODS = [:university, :course]
+  SEARCH_METHODS = [:name]
+  ORDER_METHODS  = [:name]
+
+  include Filterable
+  include Searchable
+  include Orderable
+
   # associations
 
   belongs_to :university
@@ -10,7 +20,7 @@ class Discipline < ApplicationRecord
 
   validates_presence_of :name,
                         :university,
-                        :course
+                        :course_id
 
   validates_uniqueness_of :name, scope: :course_id
 

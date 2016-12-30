@@ -1,0 +1,22 @@
+pt-BR:
+  activerecord:
+    models:
+      discipline:
+        one: Disciplina
+        other: Disciplinas
+
+    attributes:
+      discipline:
+        course_id: Curso
+        course_name: Curso
+        description: Descrição
+        name: Nome
+
+    errors:
+      models:
+        discipline:
+          attributes:
+            course_id:
+              blank: '%{attribute} precisa ser informado'
+            name:
+              blank: '%{attribute} precisa ser informado'

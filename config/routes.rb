@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     root 'home#index'
 
     resources :courses
+    resources :disciplines
     resources :educators
     resources :home, only: :index
     resources :login, only: :index
