@@ -84,6 +84,6 @@ class Admin::SchoolClassesController < AdministratorController
     year_param    = filter_params.fetch(:year, '')
 
     return filter_params if year_param.present?
-    filter_params.merge!( { year: DateTime.now.year } )
+    filter_params.merge( { year: DateTime.now.year } )
   end
 end

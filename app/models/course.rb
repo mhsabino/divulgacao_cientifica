@@ -4,9 +4,11 @@ class Course < ApplicationRecord
 
   FILTER_METHODS = [:university]
   SEARCH_METHODS = [:name]
+  ORDER_METHODS  = [:name]
 
   include Filterable
   include Searchable
+  include Orderable
 
   # associations
 
@@ -26,11 +28,4 @@ class Course < ApplicationRecord
 
   delegate :name, to: :university, prefix: true, allow_nil: true
 
-  # methods
-
-  ## ordering
-
-  def self.order_by_name
-    order(:name)
-  end
 end

@@ -4,9 +4,11 @@ class SchoolClass < ApplicationRecord
 
   FILTER_METHODS = [:university, :course, :year, :period]
   SEARCH_METHODS = [:name]
+  ORDER_METHODS  = [:name]
 
   include Filterable
   include Searchable
+  include Orderable
 
   # attributes
 
@@ -47,11 +49,5 @@ class SchoolClass < ApplicationRecord
 
   def self.localized_periods
     periods.keys.map { |w| [human_attribute_name("period.#{w}"), w] }
-  end
-
-  ## ordering
-
-  def self.order_by_name
-    order(:name)
   end
 end

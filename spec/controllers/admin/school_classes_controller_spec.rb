@@ -115,14 +115,11 @@ RSpec.describe Admin::SchoolClassesController, type: :controller do
       end
 
       context 'empty filter' do
-        it do
-          expect(controller.school_classes)
-            .to match_array(school_classes.push(filtered_school_class))
-        end
+        it { expect(controller.school_classes).to match_array(school_classes) }
       end
 
       context 'by course' do
-        let(:filter) { { course: "#{courses.first.id}" } }
+        let(:filter) { { course: "#{courses.first.id}", year: '2015' } }
 
         it do
           expect(controller.school_classes)
@@ -140,7 +137,7 @@ RSpec.describe Admin::SchoolClassesController, type: :controller do
       end
 
       context 'by period' do
-        let(:filter) { { period: '2' } }
+        let(:filter) { { period: '2', year: '2015' } }
 
         it do
           expect(controller.school_classes)

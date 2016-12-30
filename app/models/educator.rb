@@ -4,9 +4,11 @@ class Educator < ApplicationRecord
 
   FILTER_METHODS = [:university, :course]
   SEARCH_METHODS = [:name, :registration]
+  ORDER_METHODS  = [:name]
 
   include Filterable
   include Searchable
+  include Orderable
 
   # associations
 
@@ -37,13 +39,5 @@ class Educator < ApplicationRecord
   # nested attributes
 
   accepts_nested_attributes_for :user, allow_destroy: true, reject_if: :all_blank
-
-  # methods
-
-  ## ordering
-
-  def self.order_by_name
-    order(:name)
-  end
 
 end
