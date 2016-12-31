@@ -1,0 +1,11 @@
+.col-xs-12
+  #header
+    .row
+      .col-xs-6
+        = render 'search'
+
+      .col-xs-3
+        = render 'filter'
+
+      .col-xs-3
+        = link_to t('.new'), new_admin_discipline_path, class: 'btn btn-primary btn-block', role: "button"

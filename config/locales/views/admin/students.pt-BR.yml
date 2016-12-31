@@ -7,9 +7,10 @@ pt-BR:
       destroy:
         error: Houve um erro ao remover o registro
         success: Registro removido com sucesso!
+      header:
+        new: Novo estudante
       index:
         hello_admin: Olá administrador!
-        new: Novo estudante
       filter:
         filters:
           by_school_class: Filtrar por turma

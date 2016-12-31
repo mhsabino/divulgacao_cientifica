@@ -1,0 +1,8 @@
+.col-xs-12
+  #header
+    .row
+      .col-xs-6
+        = render 'search'
+
+      .col-xs-3.col-xs-offset-3
+        = link_to t('.new'), new_admin_course_path, class: 'btn btn-primary btn-block', role: "button"

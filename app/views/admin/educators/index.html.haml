@@ -1,17 +1,16 @@
 .col-xs-12
-  = render 'admin/shared/breadcrumb'
-
-.col-xs-12
   = flash_message
 
 .col-xs-12
-  = link_to t('.new'), new_admin_educator_path
+  = render 'admin/shared/breadcrumb'
 
 .col-xs-12
-  = render 'search'
+  %h2
+    = Educator.model_name.human(count: 2)
 
-.col-xs-12
-  = render 'filter'
+= render 'description'
+
+= render 'header'
 
 .col-xs-12
   = display_admin_responsive_table(Educator, educators, fields)

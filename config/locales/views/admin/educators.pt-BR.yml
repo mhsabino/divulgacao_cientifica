@@ -7,9 +7,10 @@ pt-BR:
       destroy:
         error: Houve um erro ao remover o registro
         success: Registro removido com sucesso!
+      header:
+        new: Novo educador
       index:
         hello_admin: Olá administrador!
-        new: Novo educador
       filter:
         filters:
           by_course: Filtrar por curso

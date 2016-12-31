@@ -7,7 +7,7 @@ pt-BR:
       destroy:
         error: Houve um erro ao remover o registro
         success: Registro removido com sucesso!
-      index:
+      header:
         new: Novo curso
       update:
         error: Houve um erro ao atualizar o registro

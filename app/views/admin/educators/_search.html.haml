@@ -1,6 +1,11 @@
-= simple_form_for :search, url: admin_educators_path, method: :get, role: :search do |f|
-  - filter_params = params.fetch(:filter, {}) || []
+- filter_params = params.fetch(:filter, {}) || []
 
-  = text_field_tag :search, params[:search], placeholder: t('search')
+= simple_form_for :search, url: admin_educators_path, method: :get, role: :search do |f|
+  .form-group
+    .input-group
+      = text_field_tag :search, params[:search], placeholder: t('search'), class: 'form-control'
+      %span.btn-search.input-group-addon{ data: {input_search: '' } }
+        %i.fa.fa-search
+
   = fields_for :filter do |ff|
     = ff.hidden_field :course, value: filter_params.fetch(:course, '')
