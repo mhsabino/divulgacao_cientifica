@@ -86,7 +86,7 @@ module Admin::TableHelper
   def collection_not_found(model, fields_count)
     content_tag(:tr) do
       content_tag(:td, class: 'alert alert-info text-center', colspan: fields_count) do
-        I18n.t('register_not_found', resource: downcase_model_name(model))
+        I18n.t('register_not_found', resource: downcase_localized_model_name(model))
       end
     end
   end

@@ -7,7 +7,7 @@ body {
   position: fixed;
   width: 200px;
 
-  background-color: #000;
+  background-color: $black;
 
   ul {
     margin-top: 30px;
@@ -20,14 +20,14 @@ body {
         display: inherit;
         padding: 5px;
 
-        color: #999999;
+        color: $grey-light;
         font-size: 1.5rem;
         text-decoration: none;
       }
 
       a:hover, a:active, .active_link {
-        color: #FFFFFF;
-        background-color: rgba(255,255,255,0.2);
+        color: $white;
+        background-color: $grey;
       }
     }
   }

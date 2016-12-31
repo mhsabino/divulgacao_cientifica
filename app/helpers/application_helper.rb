@@ -1,8 +1,4 @@
 module ApplicationHelper
-  def downcase_model_name(model=nil)
-    model.model_name.human.downcase if model.present?
-  end
-
   def flash_message
     message = ''
 
