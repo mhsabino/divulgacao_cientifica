@@ -11,7 +11,7 @@ module Admin::TableHelper
     attributes      = { confirm: t('destroy_confirmation'), method: 'delete' }
     data_attributes = link_data_attributes(tooltip_title, attributes)
 
-    link(path, data_attributes, 'fa fa-trash-o fa-lg')
+    link(path, data_attributes, 'fa fa-trash-o fa-lg red')
   end
 
   def link_to_edit(path)
