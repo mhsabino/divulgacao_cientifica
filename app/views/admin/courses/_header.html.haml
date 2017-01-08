@@ -5,4 +5,4 @@
         = render 'admin/shared/search', path: admin_courses_path
 
       .col-xs-3.col-xs-offset-3
-        = link_to t('.new'), new_admin_course_path, class: 'btn btn-primary btn-block', role: "button"
+        = new_resource_button(new_admin_course_path, t('.new'))
