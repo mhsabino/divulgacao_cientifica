@@ -12,10 +12,12 @@
   .col-xs-6
     = f.input :name
   .col-xs-6
-    = f.input :period, collection: SchoolClass.localized_periods, include_blank: t('select_option')
+    = f.input :period, collection: SchoolClass.localized_periods,
+        include_blank: t('select_option')
 
   .col-xs-6
-    = f.input :course_id, collection: courses_by_university(current_university), include_blank: t('select_option')
+    = f.input :course_id, collection: courses_by_university(current_university),
+        include_blank: t('select_option')
   .col-xs-3
     = f.input :year
   .col-xs-3
