@@ -2,7 +2,7 @@
   #header
     .row
       .col-xs-6
-        = render 'search'
+        = render 'admin/shared/search', path: admin_school_classes_path
 
       .col-xs-3.col-xs-offset-3
         = link_to t('.new'), new_admin_school_class_path, class: 'btn btn-primary btn-block', role: "button"

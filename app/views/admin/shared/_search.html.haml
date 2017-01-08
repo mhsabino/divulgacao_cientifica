@@ -1,6 +1,7 @@
 - filter_params = params.fetch(:filter, {}) || []
+- path ||= admin_root_path
 
-= simple_form_for :search, url: admin_school_classes_path, method: :get, role: :search do |f|
+= simple_form_for :search, url: path, method: :get, role: :search do |f|
   .form-group
     .input-group
       = text_field_tag :search, params[:search], placeholder: t('search'), class: 'form-control'
@@ -8,6 +9,5 @@
         %i.fa.fa-search
 
   = fields_for :filter do |ff|
-    = ff.hidden_field :course, value: filter_params.fetch(:course, '')
-    = ff.hidden_field :year, value: filter_params.fetch(:year, '')
-    = ff.hidden_field :period, value: filter_params.fetch(:period, '')
+    - filter_params.each do |filter_param|
+      = ff.hidden_field filter_param, value: filter_params.fetch(filter_param, '')

@@ -1,8 +1,0 @@
-- filter_params = params.fetch(:filter, {}) || []
-
-= simple_form_for :search, url: admin_courses_path, method: :get, role: :search do |f|
-  .form-group
-    .input-group
-      = text_field_tag :search, params[:search], placeholder: t('search'), class: 'form-control'
-      %span.btn-search.input-group-addon{ data: {input_search: '' } }
-        %i.fa.fa-search

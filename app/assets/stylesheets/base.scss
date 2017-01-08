@@ -3,13 +3,26 @@
 @import "color_variables";
 
 a {
-  color: $blue;
+  color: $grey-dark;
+
+  &:hover {
+    color: $grey-dark;
+  }
+
+  .red {
+    &:hover {
+      color: $red;
+    }
+  }
 }
 
-.red {
-  color: $red;
-}
+
 
 body {
+  font-family: Arial, Helvetica, sans-serif;
+
+  max-width: 1200px;
+
   background-color: rgba(204, 204, 204, 0.08);
+
 }
