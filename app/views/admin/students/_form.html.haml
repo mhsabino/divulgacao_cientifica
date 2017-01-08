@@ -5,14 +5,23 @@
   %h3
     = Student.model_name.human(count: 2)
 
-.col-xs-12
-  = simple_form_for [:admin, student] do |f|
+= simple_form_for [:admin, student] do |f|
+  .col-xs-12
     = f.error_notification
+  .col-xs-6
     = f.input :name
+  .col-xs-6
     = f.input :registration
-    = f.simple_fields_for :user do |u|
-      = u.input :email
-      = u.input :password
-      = u.input :password_confirmation
+  .col-xs-6
     = f.input :school_class_id, collection: school_classes_by_university(current_university), include_blank: t('select_option')
-    = f.button :submit
+
+  = f.simple_fields_for :user do |u|
+    .col-xs-6
+      = u.input :email
+    .col-xs-6
+      = u.input :password
+    .col-xs-6
+      = u.input :password_confirmation
+
+  .col-xs-12
+    = save_button(f)
