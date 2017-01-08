@@ -20,6 +20,7 @@ gem 'simple_form'
 gem 'kaminari'
 gem 'breadcrumbs_on_rails'
 gem 'ckeditor'
+gem 'select2-rails'
 
 group :development, :test do
   gem 'byebug', platform: :mri

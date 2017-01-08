@@ -1,7 +1,10 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
+@import "select2";
+@import "select2-bootstrap";
 @import "color_variables";
 @import "admin/form";
+
 
 a {
   color: $grey-dark;
