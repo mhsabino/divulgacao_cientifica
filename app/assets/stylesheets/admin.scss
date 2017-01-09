@@ -2,13 +2,23 @@
 @import "base";
 @import "admin/sidemenu";
 
+body {
+}
+
 .table-responsive {
   overflow: visible;
 }
 
 #container {
+  height: 100%;
   margin-left: 200px;
+  max-width: 1200px;
   padding: 5px;
+  position: fixed;
+
+  background-color: $white;
+
+  overflow: overlay;
 }
 
 #header {
