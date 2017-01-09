@@ -2,9 +2,6 @@
 @import "base";
 @import "admin/sidemenu";
 
-body {
-}
-
 .table-responsive {
   overflow: visible;
 }
@@ -12,12 +9,12 @@ body {
 #container {
   height: 100%;
   margin-left: 200px;
-  max-width: 1200px;
-  min-width: 1200px;
+  max-width: 1000px;
+  min-width: 1000px;
   padding: 5px;
   position: fixed;
 
-  background-color: $white;
+  background-color: rgba(253, 253, 253, 1);
 
   overflow: overlay;
 }
