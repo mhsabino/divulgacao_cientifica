@@ -22,6 +22,8 @@ pt-BR:
       filter:
         filters:
           by_school_class: Filtrar por turma
+      new:
+        new: Novo estudante
       update:
         error: Houve um erro ao atualizar o registro
         success: Registro atualizado com sucesso!

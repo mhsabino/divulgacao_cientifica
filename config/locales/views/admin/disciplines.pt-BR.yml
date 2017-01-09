@@ -22,6 +22,8 @@ pt-BR:
       filter:
         filters:
           by_course: Filtrar por curso
+      new:
+        new: Nova disciplina
       update:
         error: Houve um erro ao atualizar o registro
         success: Registro atualizado com sucesso!

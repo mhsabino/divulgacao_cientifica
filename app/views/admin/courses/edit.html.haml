@@ -1,4 +1,12 @@
 .col-xs-12
   = render_breadcrumb
 
-= render 'form'
+.col-xs-12
+  = flash_message
+
+.col-xs-12
+  %h2
+    = course.name
+
+.col-xs-12
+  = render 'form'

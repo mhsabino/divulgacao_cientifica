@@ -1,12 +1,4 @@
-.col-xs-12
-  = flash_message
-
-.col-xs-12
-  %h3
-    = Course.model_name.human(count: 2)
-
-.col-xs-12
-  = simple_form_for [:admin, course] do |f|
-    = f.error_notification
-    = f.input :name
-    = save_button(f)
+= simple_form_for [:admin, course] do |f|
+  = f.error_notification
+  = f.input :name
+  = save_button(f)
