@@ -7,5 +7,4 @@ module AdminHelper
   def render_breadcrumb
     render 'admin/shared/breadcrumb'
   end
-
 end
