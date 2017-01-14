@@ -1,11 +1,24 @@
-.col-xs-12
-  = render_breadcrumb
+.row
+  .col-xs-12
+    = render_breadcrumb
 
-.col-xs-12
-  = flash_message
+.row
+  .col-xs-12
+    = flash_message
 
-.col-xs-12
-  %h3
-    = discipline.name
+.row
+  .col-xs-12
+    %h3
+      = discipline.name
 
-  = discipline.description.html_safe
+.row
+  .col-xs-12
+    = discipline.description.html_safe
+
+.row
+  .col-xs-12
+    %h4
+      = pluralized_localized_model_name(Course)
+
+    #course
+      = link_to discipline.course_name, admin_course_path(discipline.course)
