@@ -7,8 +7,10 @@ pt-BR:
 
     attributes:
       student:
+        course_id: Curso
         school_class_id: Turma
         school_class_name: Turma
+        email: E-mail
         name: Nome
         registration: Matrícula
 
