@@ -40,5 +40,4 @@ RSpec.describe Admin::Courses::CoursesHelper, type: :helper do
       it { expect(helper.can_remove_course?(course)).to eq(true) }
     end
   end
-
 end

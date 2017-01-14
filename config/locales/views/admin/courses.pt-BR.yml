@@ -1,6 +1,9 @@
 pt-BR:
   admin:
     courses:
+      course:
+        course_cannot_be_removed: >
+          Curso não pode ser removido pois existem %{reason} associados(as).
       create:
         error: Houve um erro ao criar o registro
         success: Registro criado com sucesso!

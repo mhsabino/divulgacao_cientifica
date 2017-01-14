@@ -26,6 +26,9 @@ pt-BR:
           by_year: Filtrar por ano
       new:
         new: Nova turma
+      school_class:
+        school_class_cannot_be_removed: >
+          Turma não pode ser removida pois existem %{reason} associados(as).
       update:
         error: Houve um erro ao atualizar o registro
         success: Registro atualizado com sucesso!
