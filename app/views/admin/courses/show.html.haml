@@ -1,9 +1,38 @@
-.col-xs-12
-  = render_breadcrumb
+.row
+  .col-xs-12
+    = render_breadcrumb
 
-.col-xs-12
-  = flash_message
+.row
+  .col-xs-12
+    = flash_message
 
-.col-xs-12
-  %h3
-    = course.name
+.row
+  .col-xs-12
+    %h3
+      = course.name
+
+.row
+  .col-xs-12
+    %h4
+      = pluralized_localized_model_name(Discipline)
+
+    #disciplines
+      - if disciplines.present?
+        - disciplines.each do |discipline|
+          .col-xs-12
+            = link_to discipline.name, admin_discipline_path(discipline)
+      - else
+        = t('register_not_found', resource: downcase_localized_model_name(Discipline))
+
+.row
+  .col-xs-12
+    %h4
+      = pluralized_localized_model_name(SchoolClass)
+
+    #school-classes
+      - if school_classes.present?
+        - school_classes.each do |school_class|
+          .col-xs-12
+            = link_to school_class.name, admin_school_class_path(school_class)
+      - else
+        = t('register_not_found', resource: downcase_localized_model_name(SchoolClass))

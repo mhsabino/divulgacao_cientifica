@@ -12,8 +12,10 @@ class Admin::CoursesController < AdministratorController
 
   # exposures
 
-  expose(:course, attributes: :course_params)
+  expose(:course)
   expose(:courses) { paginated_courses }
+  expose(:disciplines, from: :course)
+  expose(:school_classes, from: :course)
 
   # methods
 

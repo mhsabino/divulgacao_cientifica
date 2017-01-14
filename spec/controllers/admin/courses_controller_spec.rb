@@ -158,9 +158,18 @@ RSpec.describe Admin::CoursesController, type: :controller do
     end
 
     describe '#exposes' do
+      let!(:disciplines) do
+        create_list(:discipline, 2, course: course, university: university)
+      end
+      let!(:school_classes) do
+        create_list(:school_class, 2, course: course, university: university)
+      end
+
       before { get :show, valid_params }
 
       it { expect(controller.course).to eq(course) }
+      it { expect(controller.disciplines).to eq(disciplines) }
+      it { expect(controller.school_classes).to eq(school_classes) }
     end
 
     describe '#helper_methods' do

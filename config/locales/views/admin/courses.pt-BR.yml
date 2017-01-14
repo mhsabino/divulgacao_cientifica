@@ -23,6 +23,7 @@ pt-BR:
           proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
       new:
         new: Novo curso
+
       update:
         error: Houve um erro ao atualizar o registro
         success: Registro atualizado com sucesso!
