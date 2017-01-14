@@ -1,11 +1,31 @@
-.col-xs-12
-  = render_breadcrumb
+.row
+  .col-xs-12
+    = render_breadcrumb
 
-.col-xs-12
-  = flash_message
+.row
+  .col-xs-12
+    = flash_message
 
-.col-xs-12
-  %h3
-    = educator.name
+.row
+  .col-xs-12
+    %h3
+      = educator.name
 
-  = educator.registration
+.row
+  .col-xs-4
+    %h5
+      = Educator.human_attribute_name(:registration)
+
+    = educator.registration
+
+  .col-xs-4
+    %h5
+      = Educator.human_attribute_name(:course_id)
+
+    = link_to educator.course_name, admin_course_path(educator.course)
+
+  .col-xs-4
+    %h5
+      = Educator.human_attribute_name(:email)
+
+    = educator.email
