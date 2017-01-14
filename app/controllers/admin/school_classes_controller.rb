@@ -24,6 +24,7 @@ class Admin::SchoolClassesController < AdministratorController
 
   expose(:school_class, attributes: :school_class_params)
   expose(:school_classes) { paginated_school_classes }
+  expose(:students, from: :school_class)
 
   # methods
 

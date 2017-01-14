@@ -11,3 +11,41 @@
     %h3
       = school_class.name
 
+.row
+  .col-xs-3
+    %h5
+      = SchoolClass.human_attribute_name(:course_id)
+
+    = school_class.course_name
+
+  .col-xs-3
+    %h5
+      = SchoolClass.human_attribute_name(:year)
+
+    = school_class.year
+
+  .col-xs-3
+    %h5
+      = SchoolClass.human_attribute_name(:vacancies)
+
+    = school_class.vacancies
+
+  .col-xs-3
+    %h5
+      = SchoolClass.human_attribute_name(:period)
+
+    = school_class.period_str
+
+
+.row
+  .col-xs-12
+    %h4
+      = pluralized_localized_model_name(Student)
+
+    #students
+      - if students.present?
+        - students.each do |student|
+          .col-xs-12
+            = link_to student.name, admin_student_path(student)
+      - else
+        = t('register_not_found', resource: downcase_localized_model_name(Student))

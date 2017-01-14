@@ -229,8 +229,14 @@ RSpec.describe Admin::SchoolClassesController, type: :controller do
     end
 
     describe '#exposes' do
+      let!(:students) do
+        create_list(:student, 2, school_class: school_class,
+          university: university)
+      end
+
       before { get :show, valid_params }
       it { expect(controller.school_class).to eq(school_class) }
+      it { expect(controller.students).to eq(students) }
     end
 
     describe '#helper_methods' do
