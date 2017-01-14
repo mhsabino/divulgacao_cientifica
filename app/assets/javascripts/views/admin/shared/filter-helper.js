@@ -3,12 +3,10 @@ $(function(){
 
   $(document).on('change', '[data-filter]', function() {
     _submit_form($(this));
-    // $(this).closest('form').submit();
   });
 
   $(document).on('click', '[data-input-search]', function() {
     _submit_form($(this));
-    // $(this).closest('form').submit();
   });
 
 

@@ -4,6 +4,20 @@
 
 .table-responsive {
   overflow: visible;
+
+  tr {
+    &:hover {
+      a {
+        .red {
+          color: $red;
+        }
+
+        .blue {
+          color: $blue;
+        }
+      }
+    }
+  }
 }
 
 #container {

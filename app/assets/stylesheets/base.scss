@@ -5,23 +5,6 @@
 @import "color_variables";
 @import "admin/form";
 
-
-a {
-  color: $grey-dark;
-
-  &:hover {
-    color: $grey-dark;
-  }
-
-  .red {
-    &:hover {
-      color: $red;
-    }
-  }
-}
-
-
-
 body {
   max-width: 1200px;
 
@@ -34,3 +17,12 @@ body {
   -o-background-size: cover;
   background-size: cover;
 }
+
+a {
+  color: $grey-dark;
+
+  &:hover {
+    color: $grey-dark;
+  }
+}
+
